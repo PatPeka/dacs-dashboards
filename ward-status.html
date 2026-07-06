@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ward Medication Status — DACS Demo</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+  .tile { transition: box-shadow .15s ease, transform .15s ease; }
+  .tile:hover { box-shadow: 0 8px 24px -12px rgba(15,23,42,.25); }
+</style>
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-900 font-sans">
+
+<!-- Top navigation -->
+<header class="bg-white border-b border-slate-200 sticky top-0 z-20">
+  <div class="max-w-[1600px] mx-auto px-6 h-16 flex items-center justify-between">
+    <div class="flex items-center gap-4">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded bg-blue-600 flex items-center justify-center text-white font-bold text-xl">D</div>
+        <span class="font-bold text-xl tracking-tight text-slate-800">DACS</span>
+      </div>
+      <div class="h-5 w-px bg-slate-300 mx-1"></div>
+      <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-50 text-blue-700 border border-blue-100">Assist</span>
+    </div>
+    <div class="flex items-center gap-6 text-sm">
+      <div class="flex items-center gap-2 text-slate-600"><i data-lucide="clock" class="w-4 h-4"></i><span id="hdrDate">—</span></div>
+      <div class="flex items-center gap-2 text-slate-600"><i data-lucide="map-pin" class="w-4 h-4"></i><span id="hdrSite" class="font-medium text-slate-800">—</span></div>
+      <span id="hdrUpdated" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-transparent border border-slate-200 text-slate-500"><i data-lucide="refresh-cw" class="w-3 h-3"></i> Data updated —</span>
+    </div>
+  </div>
+</header>
+
+<nav class="bg-white border-b border-slate-200">
+  <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 h-12 flex items-center gap-1 overflow-x-auto">
+      <a href="index.html" title="Back to menu" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-sm font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors"><i data-lucide="home" class="w-4 h-4"></i><span class="hidden sm:inline">Home</span></a>
+      <div class="h-5 w-px bg-slate-200 mx-1"></div>
+      <a href="where-is-my-meds.html" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-sm font-medium transition-colors text-slate-500 hover:text-slate-900 hover:bg-slate-100"><i data-lucide="pill" class="w-4 h-4"></i><span class="hidden md:inline">Where is my med</span></a>
+      <a href="production-cockpit.html" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-sm font-medium transition-colors text-slate-500 hover:text-slate-900 hover:bg-slate-100"><i data-lucide="layout-dashboard" class="w-4 h-4"></i><span class="hidden md:inline">Production Cockpit</span></a>
+      <a href="ward-status.html" aria-current="page" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-sm font-medium transition-colors bg-blue-600 text-white"><i data-lucide="layout-grid" class="w-4 h-4"></i><span class="hidden md:inline">Ward Status</span></a>
+  </div>
+</nav>
+
+<main class="max-w-[1600px] mx-auto px-6 py-8 space-y-6">
+  <div>
+    <h1 class="text-2xl font-bold text-slate-900">Ward Medication Status</h1>
+    <p class="text-slate-500 mt-1">Where is my med — ward view. Supply and administration status by bed, no patient names. Prepare the round, anticipate problems.</p>
+  </div>
+
+  <!-- Controls -->
+  <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex flex-col lg:flex-row lg:items-end gap-4">
+    <div class="flex flex-wrap items-end gap-4 flex-grow">
+      <label class="block">
+        <span class="text-xs font-medium text-slate-500 mb-1 block">Ward</span>
+        <div id="wardName" class="h-10 px-3 flex items-center rounded-lg border border-slate-200 bg-slate-50 font-medium text-slate-800 text-sm">—</div>
+      </label>
+      <label class="block">
+        <span class="text-xs font-medium text-slate-500 mb-1 block">Admin time</span>
+        <select id="adminTimeSel" class="h-10 px-3 rounded-lg border border-slate-200 bg-white text-sm font-medium focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"></select>
+      </label>
+      <label class="block">
+        <span class="text-xs font-medium text-slate-500 mb-1 block">Look ahead</span>
+        <select id="lookAheadSel" class="h-10 px-3 rounded-lg border border-slate-200 bg-white text-sm font-medium focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"></select>
+      </label>
+    </div>
+    <div>
+      <span class="text-xs font-medium text-slate-500 mb-1 block">Reconciliation modules <span class="text-slate-400 font-normal">— toggle to see certainty change</span></span>
+      <div id="moduleToggles" class="flex flex-wrap gap-2"></div>
+    </div>
+  </div>
+
+  <!-- Neutral-base note -->
+  <div class="bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 flex items-start gap-3">
+    <i data-lucide="info" class="w-5 h-5 text-blue-600 shrink-0 mt-0.5"></i>
+    <p class="text-sm text-blue-900 leading-relaxed" id="baseNote">
+      The base model is neutral: it only knows what was delivered. Reconciliation modules add administration outcomes.
+      With every module off, delivered doses stay <span class="font-semibold">Unknown</span> — the system never assumes.
+    </p>
+  </div>
+
+  <!-- Summary strip -->
+  <div id="summary" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3"></div>
+
+  <!-- Bed grid -->
+  <div id="bedGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
+
+  <!-- Legend -->
+  <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+    <h3 class="text-sm font-bold text-slate-900 mb-3 flex items-center gap-2"><i data-lucide="list" class="w-4 h-4 text-slate-400"></i> Status taxonomy</h3>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-2 text-sm" id="legend"></div>
+  </div>
+</main>
+
+<script src="js/datasource.js"></script>
+<script>
+// ---------- Status taxonomy ----------
+const ADMIN = {
+  administered:        { label: 'Administered',        conf: 'Confirmed', tile: 'bg-emerald-50 border-emerald-200', text: 'text-emerald-800', dot: 'bg-emerald-500' },
+  'assumed-admin':     { label: 'Assumed administered', conf: 'Presumed',  tile: 'bg-sky-50 border-sky-200',        text: 'text-sky-800',     dot: 'bg-sky-500' },
+  'assumed-not-taken': { label: 'Assumed not taken',    conf: 'Presumed',  tile: 'bg-amber-50 border-amber-200',    text: 'text-amber-800',   dot: 'bg-amber-500' },
+  'not-taken':         { label: 'Not taken',            conf: 'Confirmed', tile: 'bg-orange-50 border-orange-200',  text: 'text-orange-800',  dot: 'bg-orange-500' },
+  contradiction:       { label: 'Conflicting signals',  conf: 'Review',    tile: 'bg-rose-50 border-rose-300',      text: 'text-rose-800',    dot: 'bg-rose-500' },
+  unknown:             { label: 'Unknown',              conf: 'Unknown',   tile: 'bg-slate-50 border-slate-200',    text: 'text-slate-600',   dot: 'bg-slate-400' }
+};
+const SUPPLY = {
+  delivered:      { label: 'Delivered',        icon: 'check-circle-2', text: 'text-emerald-600' },
+  'in-transit':   { label: 'In transit',       icon: 'truck',          text: 'text-blue-600' },
+  'in-production':{ label: 'In production',     icon: 'activity',       text: 'text-amber-600' },
+  'stock-out':    { label: 'Stock out',        icon: 'alert-octagon',  text: 'text-red-600' },
+  'waiting-rcp':  { label: 'Waiting for RCP',  icon: 'file-clock',     text: 'text-amber-600' },
+  cancelled:      { label: 'Cancelled by ADT', icon: 'x-circle',       text: 'text-slate-500' },
+  none:           { label: 'No order',         icon: 'minus',          text: 'text-slate-400' }
+};
+const CONF_PILL = {
+  Confirmed: 'bg-emerald-100 text-emerald-700',
+  Presumed:  'bg-amber-100 text-amber-700',
+  Review:    'bg-rose-100 text-rose-700',
+  Unknown:   'bg-slate-100 text-slate-500'
+};
+const MODULE_DEFS = [
+  { key: 'emar',      label: 'eMAR',        hint: 'confirmed administration' },
+  { key: 'adt',       label: 'ADT',         hint: 'discharge-based inference' },
+  { key: 'bagReturn', label: 'Bag-return',  hint: 'confirmed not-taken' },
+  { key: 'assume',    label: 'Assumption',  hint: 'assume administered after admin time' }
+];
+
+let DATA = null;
+let state = { adminTime: null, lookAhead: null, modules: {} };
+
+function esc(s){ return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+// ---------- Derivation: raw signals + active modules -> status ----------
+function derive(bed, round) {
+  const supply = bed.supply;
+  // Supply problems and non-delivered states dominate the tile.
+  if (supply !== 'delivered') {
+    return { kind: 'supply', supply, admin: null, flag: null };
+  }
+  const m = state.modules;
+  const s = bed.signals || {};
+  const emarAdmin = m.emar && s.emar === 'administered';
+  const bagReturned = m.bagReturn && s.bagReturn === 'returned';
+  const adtDischarge = m.adt && s.adt === 'discharged-before-admin';
+
+  let admin = 'unknown', flag = null;
+
+  if (emarAdmin && bagReturned) {
+    admin = 'contradiction';
+    flag = { type: 'contradiction', text: 'eMAR says administered, but bag was returned — review.' };
+  } else if (bagReturned && adtDischarge) {
+    admin = 'not-taken';
+    flag = { type: 'confirmation', text: 'Bag returned and patient discharged before admin — confirmed.' };
+  } else if (bagReturned) {
+    admin = 'not-taken';
+  } else if (emarAdmin) {
+    admin = 'administered';
+  } else if (adtDischarge) {
+    admin = 'assumed-not-taken';
+  } else if (m.assume && round.adminTimePassed) {
+    admin = 'assumed-admin';
+  } else {
+    admin = 'unknown';
+  }
+  return { kind: 'admin', supply, admin, flag };
+}
+
+function activeSignalChips(bed) {
+  const m = state.modules, s = bed.signals || {}, chips = [];
+  if (m.emar && s.emar) chips.push({ label: 'eMAR', cls: 'bg-emerald-100 text-emerald-700' });
+  if (m.adt && s.adt) chips.push({ label: 'ADT', cls: 'bg-amber-100 text-amber-700' });
+  if (m.bagReturn && s.bagReturn) chips.push({ label: 'Bag', cls: 'bg-orange-100 text-orange-700' });
+  return chips;
+}
+
+// ---------- Rendering ----------
+function renderControls() {
+  document.getElementById('wardName').textContent = DATA.ward.name;
+  const at = document.getElementById('adminTimeSel');
+  at.innerHTML = DATA.adminTimes.map(t => `<option value="${t}">${t}</option>`).join('');
+  at.value = state.adminTime;
+  const la = document.getElementById('lookAheadSel');
+  la.innerHTML = DATA.lookAheadOptions.map(o => `<option value="${esc(o)}">${esc(o)}</option>`).join('');
+  la.value = state.lookAhead;
+
+  document.getElementById('moduleToggles').innerHTML = MODULE_DEFS.map(md => {
+    const on = state.modules[md.key];
+    return `<button data-mod="${md.key}" title="${esc(md.hint)}"
+      class="inline-flex items-center gap-1.5 px-3 h-9 rounded-lg border text-sm font-medium transition-colors
+      ${on ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300'}">
+      <span class="w-2 h-2 rounded-full ${on ? 'bg-white' : 'bg-slate-300'}"></span>${esc(md.label)}</button>`;
+  }).join('');
+  document.querySelectorAll('#moduleToggles button').forEach(btn =>
+    btn.addEventListener('click', () => { state.modules[btn.dataset.mod] = !state.modules[btn.dataset.mod]; render(); })
+  );
+}
+
+function nextRoundKey() {
+  const i = DATA.adminTimes.indexOf(state.adminTime);
+  return DATA.adminTimes[i + 1] || null;
+}
+
+function aheadChip(room, bed) {
+  if (state.lookAhead !== 'This + next round') return '';
+  const nk = nextRoundKey();
+  if (!nk) return '';
+  const nb = DATA.rounds[nk].beds.find(b => b.room === room && b.bed === bed);
+  if (!nb) return '';
+  if (!['stock-out', 'waiting-rcp', 'cancelled'].includes(nb.supply)) return '';
+  const sup = SUPPLY[nb.supply];
+  return `<div class="mt-2 flex items-center gap-1.5 text-xs font-medium text-slate-500 border-t border-slate-100 pt-2">
+    <i data-lucide="corner-down-right" class="w-3.5 h-3.5"></i> ${nk}: <span class="${sup.text}">${esc(sup.label)}</span></div>`;
+}
+
+function tile(bed, round) {
+  const d = derive(bed, round);
+  const sup = SUPPLY[d.supply];
+  let confLabel, ring, headTint;
+
+  if (d.kind === 'supply') {
+    // Supply problem or upcoming — the tile leads with the supply state.
+    const isProblem = ['stock-out', 'waiting-rcp'].includes(d.supply);
+    confLabel = isProblem ? 'Action' : (d.supply === 'cancelled' ? 'Closed' : 'Upcoming');
+    ring = isProblem ? 'bg-red-50 border-red-200' : 'bg-white border-slate-200';
+    const pill = isProblem ? 'bg-red-100 text-red-700' : 'bg-slate-100 text-slate-500';
+    return `<div class="tile rounded-xl border ${ring} p-4">
+      <div class="flex items-center justify-between mb-3">
+        <div class="font-bold text-slate-900">Room ${esc(bed.room)} · Bed ${esc(bed.bed)}</div>
+        <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full ${pill}">${confLabel}</span>
+      </div>
+      <div class="flex items-center gap-2 ${sup.text} mb-1"><i data-lucide="${sup.icon}" class="w-5 h-5"></i><span class="text-lg font-bold">${esc(sup.label)}</span></div>
+      <p class="text-sm text-slate-500">${isProblem ? 'Visible outside pharmacy — no CPOE integration needed.' : (d.supply === 'cancelled' ? 'Order withdrawn by admission/transfer/discharge.' : 'Dose not yet delivered for this round.')}</p>
+      ${aheadChip(bed.room, bed.bed)}
+    </div>`;
+  }
+
+  const a = ADMIN[d.admin];
+  const chips = activeSignalChips(bed);
+  const flagBox = d.flag ? `
+    <div class="mt-3 flex items-start gap-2 text-xs font-medium px-2.5 py-2 rounded-lg border
+      ${d.flag.type === 'contradiction' ? 'bg-rose-50 border-rose-200 text-rose-800' : 'bg-emerald-50 border-emerald-200 text-emerald-800'}">
+      <i data-lucide="${d.flag.type === 'contradiction' ? 'alert-triangle' : 'check-check'}" class="w-4 h-4 shrink-0 mt-0.5"></i>
+      <span>${esc(d.flag.text)}</span>
+    </div>` : '';
+
+  return `<div class="tile rounded-xl border ${a.tile} p-4">
+    <div class="flex items-center justify-between mb-3">
+      <div class="font-bold text-slate-900">Room ${esc(bed.room)} · Bed ${esc(bed.bed)}</div>
+      <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full ${CONF_PILL[a.conf]}">${a.conf}</span>
+    </div>
+    <div class="flex items-center gap-2 ${sup.text} text-sm mb-2"><i data-lucide="${sup.icon}" class="w-4 h-4"></i><span>${esc(sup.label)}${bed.deliveredAt ? ' · ' + esc(bed.deliveredAt) : ''}</span></div>
+    <div class="flex items-center gap-2 mb-1">
+      <span class="w-2.5 h-2.5 rounded-full ${a.dot}"></span>
+      <span class="text-lg font-bold ${a.text}">${a.label}</span>
+    </div>
+    ${chips.length ? `<div class="flex flex-wrap gap-1.5 mt-2">${chips.map(c => `<span class="text-[11px] font-semibold px-2 py-0.5 rounded-full ${c.cls}">${c.label}</span>`).join('')}</div>` : ''}
+    ${flagBox}
+    ${aheadChip(bed.room, bed.bed)}
+  </div>`;
+}
+
+function renderSummary(round) {
+  const counts = { administered:0, 'assumed-admin':0, 'assumed-not-taken':0, 'not-taken':0, contradiction:0, unknown:0, supplyProblem:0 };
+  round.beds.forEach(b => {
+    const d = derive(b, round);
+    if (d.kind === 'supply') { if (['stock-out','waiting-rcp'].includes(d.supply)) counts.supplyProblem++; }
+    else counts[d.admin]++;
+  });
+  const card = (label, val, cls) => `<div class="bg-white rounded-xl border border-slate-200 px-4 py-3">
+    <div class="text-2xl font-bold ${cls}">${val}</div><div class="text-xs font-medium text-slate-500 mt-0.5">${label}</div></div>`;
+  document.getElementById('summary').innerHTML =
+    card('Administered', counts.administered, 'text-emerald-600') +
+    card('Presumed', counts['assumed-admin'] + counts['assumed-not-taken'], 'text-amber-600') +
+    card('Not taken', counts['not-taken'], 'text-orange-600') +
+    card('Unknown', counts.unknown, 'text-slate-500') +
+    card('To review', counts.contradiction, 'text-rose-600') +
+    card('Supply alerts', counts.supplyProblem, 'text-red-600');
+}
+
+function renderLegend() {
+  const rows = [
+    ['administered', 'eMAR confirms administration'],
+    ['assumed-admin', 'Delivered, admin time passed, no contrary signal'],
+    ['assumed-not-taken', 'Patient discharged before admin time (ADT)'],
+    ['not-taken', 'Bag returned and reconciled to the order'],
+    ['contradiction', 'Signals disagree — needs a human check'],
+    ['unknown', 'Delivered only — no reconciliation signal']
+  ];
+  document.getElementById('legend').innerHTML = rows.map(([k, desc]) => {
+    const a = ADMIN[k];
+    return `<div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full ${a.dot} shrink-0"></span>
+      <span class="font-medium text-slate-800">${a.label}</span>
+      <span class="text-slate-400">·</span><span class="text-slate-500">${esc(desc)}</span></div>`;
+  }).join('');
+}
+
+function render() {
+  const round = DATA.rounds[state.adminTime];
+  renderControls();
+  renderSummary(round);
+  document.getElementById('bedGrid').innerHTML = round.beds.map(b => tile(b, round)).join('');
+  renderLegend();
+  const allOff = Object.values(state.modules).every(v => !v);
+  document.getElementById('baseNote').parentElement.classList.toggle('ring-2', allOff);
+  document.getElementById('baseNote').parentElement.classList.toggle('ring-blue-300', allOff);
+  lucide.createIcons();
+}
+
+async function init() {
+  try {
+    DATA = await window.DACSData.getWardStatus();
+    state.adminTime = DATA.defaultAdminTime;
+    state.lookAhead = DATA.lookAheadOptions[0];
+    state.modules = { ...DATA.modules };
+    document.getElementById('hdrDate').textContent = DATA.date;
+    document.getElementById('hdrSite').textContent = DATA.site;
+    document.getElementById('hdrUpdated').innerHTML = `<i data-lucide="refresh-cw" class="w-3 h-3"></i> Data updated ${esc(DATA.dataUpdated)}`;
+    render();
+    document.getElementById('adminTimeSel').addEventListener('change', e => { state.adminTime = e.target.value; render(); });
+    document.getElementById('lookAheadSel').addEventListener('change', e => { state.lookAhead = e.target.value; render(); });
+  } catch (e) {
+    document.querySelector('main').insertAdjacentHTML('afterbegin',
+      `<div class="bg-red-50 border border-red-200 text-red-800 rounded-xl p-4 mb-4">Ward status unavailable. ${esc(e.message)}</div>`);
+  }
+}
+init();
+</script>
+</body>
+</html>

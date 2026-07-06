@@ -1,0 +1,98 @@
+{
+  "site": "CHU Liège — Central Pharmacy",
+  "date": "Wednesday, 24 June 2026",
+  "dataUpdated": "18:20",
+  "currentAdminTime": "18:00",
+  "adminTimes": ["18:00", "22:00"],
+  "lookAheadOptions": ["This round", "This + next round"],
+  "modules": { "emar": true, "adt": true, "bagReturn": true, "assume": true },
+
+  "detailedWard": "224",
+
+  "production": {
+    "startTime": "09:02",
+    "cutoff": "18:00",
+    "forecastEnd": "13:46",
+    "forecastStatus": "On track",
+    "remainingLabel": "04h44 remaining",
+    "objectiveDoses": 5690,
+    "producedDoses": 0,
+    "totalPatients": 596,
+    "servedPatients": 0,
+    "timelineProgressPct": 45,
+    "rationale": [
+      "Lower median RCP first",
+      "Remaining workload included",
+      "Fixed production rate applied",
+      "Recalculated as production progresses"
+    ],
+    "slaForecast": { "estimatedCompletion": "13:46", "cutoff": "18:00", "buffer": "04h14", "status": "On track" },
+    "exceptions": [
+      { "count": 12, "label": "DO received late",      "tone": "orange" },
+      { "count": 4,  "label": "DO cancelled by ADT",   "tone": "slate" },
+      { "count": 8,  "label": "DO waiting for RCP",    "tone": "amber" },
+      { "count": 0,  "label": "robot capacity alerts", "tone": "emerald" }
+    ],
+    "timeline": [
+      { "time": "09:02", "label": "Start",        "state": "done" },
+      { "time": "13:46", "label": "Forecast end",  "state": "forecast" },
+      { "time": "18:00", "label": "Cut-off",       "state": "future" }
+    ],
+    "recommendationReason": "This ward combines low return risk and high remaining workload."
+  },
+
+  "wards": [
+    { "id": "248", "name": "248 — Revalidation Neuro-Locom",       "patients": 32, "doses": 357, "rcp": "0.05", "duration": "35 min", "progress": 0, "risk": "On track",   "riskType": "success" },
+    { "id": "236", "name": "236 — Pneumo Cardio Rxthér.",          "patients": 28, "doses": 312, "rcp": "0.09", "duration": "31 min", "progress": 0, "risk": "On track",   "riskType": "success" },
+    { "id": "443", "name": "443 — 3CD Oncologie",                  "patients": 28, "doses": 202, "rcp": "0.09", "duration": "20 min", "progress": 0, "risk": "On track",   "riskType": "success" },
+    { "id": "224", "name": "224 — Néphrologie / Médecine interne", "patients": 25, "doses": 315, "rcp": "0.10", "duration": "31 min", "progress": 0, "risk": "Watch",      "riskType": "warning" },
+    { "id": "159", "name": "159 — Gériatrie 2",                    "patients": 26, "doses": 225, "rcp": "0.11", "duration": "22 min", "progress": 0, "risk": "Watch",      "riskType": "warning" },
+    { "id": "135", "name": "135 — Médecine A",                     "patients": 18, "doses": 154, "rcp": "0.11", "duration": "15 min", "progress": 0, "risk": "On track",   "riskType": "success" },
+    { "id": "225", "name": "225 — Médecine Interne",               "patients": 25, "doses": 246, "rcp": "0.11", "duration": "24 min", "progress": 0, "risk": "On track",   "riskType": "success" },
+    { "id": "227", "name": "227 — Neurologie / Neurochir.",        "patients": 30, "doses": 239, "rcp": "0.12", "duration": "23 min", "progress": 0, "risk": "Delay risk", "riskType": "danger" }
+  ],
+
+  "patients": [
+    { "id": "p01", "name": "Marie Dubois",  "admissionNumber": "A2201", "ward": "224", "room": "12", "bed": "A", "dob": "1968-03-12" },
+    { "id": "p02", "name": "Luca Bernard",  "admissionNumber": "A2202", "ward": "224", "room": "12", "bed": "B", "dob": "1975-07-30" },
+    { "id": "p03", "name": "Anna Schmidt",  "admissionNumber": "A2203", "ward": "224", "room": "13", "bed": "A", "dob": "1959-11-05" },
+    { "id": "p04", "name": "Peter Janssen", "admissionNumber": "A2204", "ward": "224", "room": "13", "bed": "B", "dob": "1948-02-19" },
+    { "id": "p05", "name": "Sofia Rossi",   "admissionNumber": "A2205", "ward": "224", "room": "14", "bed": "A", "dob": "1982-09-23" },
+    { "id": "p06", "name": "Erik Larsen",   "admissionNumber": "A2206", "ward": "224", "room": "14", "bed": "B", "dob": "1970-06-14" },
+    { "id": "p07", "name": "Nora Hansen",   "admissionNumber": "A2207", "ward": "224", "room": "15", "bed": "A", "dob": "1955-12-01" },
+    { "id": "p08", "name": "Tomas Novak",   "admissionNumber": "A2208", "ward": "224", "room": "15", "bed": "B", "dob": "1963-08-08" },
+    { "id": "p09", "name": "Julia Meyer",   "admissionNumber": "A2209", "ward": "224", "room": "16", "bed": "A", "dob": "1978-04-27" },
+    { "id": "p10", "name": "David Klein",   "admissionNumber": "A2210", "ward": "224", "room": "16", "bed": "B", "dob": "1951-10-16" },
+    { "id": "p11", "name": "Elena Popov",   "admissionNumber": "A2481", "ward": "248", "room": "05", "bed": "A", "dob": "1972-01-09" },
+    { "id": "p12", "name": "Marco Ferrari", "admissionNumber": "A2361", "ward": "236", "room": "11", "bed": "B", "dob": "1966-05-21" },
+    { "id": "p13", "name": "Ingrid Berg",   "admissionNumber": "A4431", "ward": "443", "room": "02", "bed": "A", "dob": "1989-03-03" }
+  ],
+
+  "dispenseOrders": [
+    { "id": "RX-2201-18", "patientId": "p01", "ward": "224", "room": "12", "bed": "A", "adminTime": "18:00", "doses": 7, "supply": "delivered",   "receivedLate": false, "times": { "received": "15:40", "production": "15:55", "picked": "16:20", "delivered": "16:40" }, "signals": { "emar": "administered", "adt": null, "bagReturn": null } },
+    { "id": "RX-2202-18", "patientId": "p02", "ward": "224", "room": "12", "bed": "B", "adminTime": "18:00", "doses": 5, "supply": "delivered",   "receivedLate": false, "times": { "received": "15:42", "production": "15:58", "picked": "16:22", "delivered": "16:42" }, "signals": { "emar": null, "adt": null, "bagReturn": null } },
+    { "id": "RX-2203-18", "patientId": "p03", "ward": "224", "room": "13", "bed": "A", "adminTime": "18:00", "doses": 6, "supply": "delivered",   "receivedLate": false, "times": { "received": "15:45", "production": "16:00", "picked": "16:25", "delivered": "16:45" }, "signals": { "emar": null, "adt": "discharged-before-admin", "bagReturn": null } },
+    { "id": "RX-2204-18", "patientId": "p04", "ward": "224", "room": "13", "bed": "B", "adminTime": "18:00", "doses": 8, "supply": "delivered",   "receivedLate": false, "times": { "received": "15:50", "production": "16:05", "picked": "16:30", "delivered": "16:50" }, "signals": { "emar": null, "adt": "discharged-before-admin", "bagReturn": "returned" } },
+    { "id": "RX-2205-18", "patientId": "p05", "ward": "224", "room": "14", "bed": "A", "adminTime": "18:00", "doses": 7, "supply": "delivered",   "receivedLate": false, "times": { "received": "15:55", "production": "16:10", "picked": "16:35", "delivered": "16:55" }, "signals": { "emar": "administered", "adt": null, "bagReturn": "returned" } },
+    { "id": "RX-2206-18", "patientId": "p06", "ward": "224", "room": "14", "bed": "B", "adminTime": "18:00", "doses": 9, "supply": "stock-out",   "receivedLate": true,  "times": { "received": "15:20" }, "signals": { "emar": null, "adt": null, "bagReturn": null } },
+    { "id": "RX-2207-18", "patientId": "p07", "ward": "224", "room": "15", "bed": "A", "adminTime": "18:00", "doses": 6, "supply": "delivered",   "receivedLate": false, "times": { "received": "16:02", "production": "16:18", "picked": "16:45", "delivered": "17:02" }, "signals": { "emar": null, "adt": null, "bagReturn": "returned" } },
+    { "id": "RX-2208-18", "patientId": "p08", "ward": "224", "room": "15", "bed": "B", "adminTime": "18:00", "doses": 5, "supply": "waiting-rcp", "receivedLate": false, "times": { "received": "16:10" }, "signals": { "emar": null, "adt": null, "bagReturn": null } },
+    { "id": "RX-2209-18", "patientId": "p09", "ward": "224", "room": "16", "bed": "A", "adminTime": "18:00", "doses": 7, "supply": "delivered",   "receivedLate": false, "times": { "received": "16:05", "production": "16:20", "picked": "16:48", "delivered": "17:05" }, "signals": { "emar": null, "adt": null, "bagReturn": null } },
+    { "id": "RX-2210-18", "patientId": "p10", "ward": "224", "room": "16", "bed": "B", "adminTime": "18:00", "doses": 4, "supply": "cancelled",   "receivedLate": false, "times": { "received": "15:30", "cancelled": "16:05" }, "signals": { "emar": null, "adt": null, "bagReturn": null } },
+
+    { "id": "RX-2201-22", "patientId": "p01", "ward": "224", "room": "12", "bed": "A", "adminTime": "22:00", "doses": 7, "supply": "in-transit",    "receivedLate": false, "times": { "received": "20:10", "production": "20:25", "picked": "20:50" }, "signals": { "emar": null, "adt": null, "bagReturn": null } },
+    { "id": "RX-2202-22", "patientId": "p02", "ward": "224", "room": "12", "bed": "B", "adminTime": "22:00", "doses": 5, "supply": "in-production", "receivedLate": false, "times": { "received": "20:12", "production": "20:28" }, "signals": { "emar": null, "adt": null, "bagReturn": null } },
+    { "id": "RX-2203-22", "patientId": "p03", "ward": "224", "room": "13", "bed": "A", "adminTime": "22:00", "doses": 6, "supply": "in-production", "receivedLate": false, "times": { "received": "20:15", "production": "20:30" }, "signals": { "emar": null, "adt": null, "bagReturn": null } },
+    { "id": "RX-2204-22", "patientId": "p04", "ward": "224", "room": "13", "bed": "B", "adminTime": "22:00", "doses": 8, "supply": "cancelled",     "receivedLate": false, "times": { "received": "20:00", "cancelled": "20:20" }, "signals": { "emar": null, "adt": null, "bagReturn": null } },
+    { "id": "RX-2205-22", "patientId": "p05", "ward": "224", "room": "14", "bed": "A", "adminTime": "22:00", "doses": 7, "supply": "in-production", "receivedLate": false, "times": { "received": "20:18", "production": "20:33" }, "signals": { "emar": null, "adt": null, "bagReturn": null } },
+    { "id": "RX-2206-22", "patientId": "p06", "ward": "224", "room": "14", "bed": "B", "adminTime": "22:00", "doses": 9, "supply": "stock-out",     "receivedLate": true,  "times": { "received": "19:50" }, "signals": { "emar": null, "adt": null, "bagReturn": null } },
+    { "id": "RX-2207-22", "patientId": "p07", "ward": "224", "room": "15", "bed": "A", "adminTime": "22:00", "doses": 6, "supply": "in-transit",    "receivedLate": false, "times": { "received": "20:05", "production": "20:20", "picked": "20:48" }, "signals": { "emar": null, "adt": null, "bagReturn": null } },
+    { "id": "RX-2208-22", "patientId": "p08", "ward": "224", "room": "15", "bed": "B", "adminTime": "22:00", "doses": 5, "supply": "waiting-rcp",   "receivedLate": false, "times": { "received": "20:22" }, "signals": { "emar": null, "adt": null, "bagReturn": null } },
+    { "id": "RX-2209-22", "patientId": "p09", "ward": "224", "room": "16", "bed": "A", "adminTime": "22:00", "doses": 7, "supply": "in-production", "receivedLate": false, "times": { "received": "20:08", "production": "20:24" }, "signals": { "emar": null, "adt": null, "bagReturn": null } },
+    { "id": "RX-2210-22", "patientId": "p10", "ward": "224", "room": "16", "bed": "B", "adminTime": "22:00", "doses": 0, "supply": "none",          "receivedLate": false, "times": {}, "signals": { "emar": null, "adt": null, "bagReturn": null } },
+
+    { "id": "RX-2481-18", "patientId": "p11", "ward": "248", "room": "05", "bed": "A", "adminTime": "18:00", "doses": 6, "supply": "in-transit", "receivedLate": false, "times": { "received": "16:00", "production": "16:15", "picked": "16:40" }, "signals": { "emar": null, "adt": null, "bagReturn": null } },
+    { "id": "RX-2361-18", "patientId": "p12", "ward": "236", "room": "11", "bed": "B", "adminTime": "18:00", "doses": 8, "supply": "delivered",  "receivedLate": false, "times": { "received": "15:35", "production": "15:50", "picked": "16:15", "delivered": "16:35" }, "signals": { "emar": "administered", "adt": null, "bagReturn": null } },
+    { "id": "RX-4431-18", "patientId": "p13", "ward": "443", "room": "02", "bed": "A", "adminTime": "18:00", "doses": 5, "supply": "in-production", "receivedLate": false, "times": { "received": "16:20", "production": "16:35" }, "signals": { "emar": null, "adt": null, "bagReturn": null } }
+  ]
+}
