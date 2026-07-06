@@ -1,0 +1,59 @@
+{
+  "generatedAt": "2026-06-24T08:55:00Z",
+  "source": "mock",
+  "site": "CHU Liège — Central Pharmacy",
+  "date": "Wednesday, 24 June 2026",
+  "dataUpdated": "08:55",
+  "kpis": {
+    "dailyObjectiveDoses": { "produced": 0, "target": 5690 },
+    "patients": { "served": 0, "total": 596 },
+    "startTime": "09:02",
+    "cutoff": "18:00",
+    "forecastEnd": "13:46",
+    "forecastStatus": "On track",
+    "remainingLabel": "04h44 remaining"
+  },
+  "recommendation": {
+    "ward": "248 — Revalidation Neuro-Locom",
+    "patients": 32,
+    "doses": 357,
+    "medianRcp": "0.05",
+    "estDuration": "35 min",
+    "progress": 0,
+    "reason": "This ward combines low return risk and high remaining workload."
+  },
+  "sequence": [
+    { "rank": 1, "ward": "248 — Revalidation Neuro-Locom",        "patients": 32, "doses": 357, "rcp": "0.05", "duration": "35 min", "progress": 0, "risk": "On track",   "riskType": "success" },
+    { "rank": 2, "ward": "236 — Pneumo Cardio Rxthér.",           "patients": 28, "doses": 312, "rcp": "0.09", "duration": "31 min", "progress": 0, "risk": "On track",   "riskType": "success" },
+    { "rank": 3, "ward": "443 — 3CD Oncologie",                   "patients": 28, "doses": 202, "rcp": "0.09", "duration": "20 min", "progress": 0, "risk": "On track",   "riskType": "success" },
+    { "rank": 4, "ward": "224 — Néphrologie / Médecine interne",  "patients": 25, "doses": 315, "rcp": "0.10", "duration": "31 min", "progress": 0, "risk": "Watch",      "riskType": "warning" },
+    { "rank": 5, "ward": "159 — Gériatrie 2",                     "patients": 26, "doses": 225, "rcp": "0.11", "duration": "22 min", "progress": 0, "risk": "Watch",      "riskType": "warning" },
+    { "rank": 6, "ward": "135 — Médecine A",                      "patients": 18, "doses": 154, "rcp": "0.11", "duration": "15 min", "progress": 0, "risk": "On track",   "riskType": "success" },
+    { "rank": 7, "ward": "225 — Médecine Interne",                "patients": 25, "doses": 246, "rcp": "0.11", "duration": "24 min", "progress": 0, "risk": "On track",   "riskType": "success" },
+    { "rank": 8, "ward": "227 — Neurologie / Neurochir.",         "patients": 30, "doses": 239, "rcp": "0.12", "duration": "23 min", "progress": 0, "risk": "Delay risk", "riskType": "danger"  }
+  ],
+  "rationale": [
+    "Lower median RCP first",
+    "Remaining workload included",
+    "Fixed production rate applied",
+    "Recalculated as production progresses"
+  ],
+  "slaForecast": {
+    "estimatedCompletion": "13:46",
+    "cutoff": "18:00",
+    "buffer": "04h14",
+    "status": "On track"
+  },
+  "exceptions": [
+    { "count": 12, "label": "DO received late",     "tone": "orange" },
+    { "count": 4,  "label": "DO cancelled by ADT",  "tone": "slate" },
+    { "count": 8,  "label": "DO waiting for RCP",   "tone": "amber" },
+    { "count": 0,  "label": "robot capacity alerts","tone": "emerald" }
+  ],
+  "timeline": [
+    { "time": "09:02", "label": "Start",        "state": "done" },
+    { "time": "13:46", "label": "Forecast end", "state": "forecast" },
+    { "time": "18:00", "label": "Cut-off",      "state": "future" }
+  ],
+  "timelineProgressPct": 45
+}
