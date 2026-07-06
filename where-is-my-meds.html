@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Where is my meds? — DACS Demo</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          brand: {
+            50: '#f0fdfa', 100: '#ccfbf1', 500: '#14b8a6',
+            600: '#0d9488', 700: '#0f766e', 900: '#134e4a'
+          }
+        }
+      }
+    }
+  }
+</script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+  .fade-in { animation: fadeIn .3s ease both; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  .spin { animation: spin 1s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .fade-in, .spin { animation: none; } }
+</style>
+</head>
+<body class="min-h-screen bg-slate-50 font-sans text-slate-900">
+
+<!-- Header -->
+<header class="bg-white border-b border-slate-200 sticky top-0 z-10">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 bg-brand-600 rounded-xl flex items-center justify-center text-white shadow-sm">
+        <i data-lucide="activity" class="w-6 h-6"></i>
+      </div>
+      <div>
+        <h1 class="text-xl font-bold text-slate-900 leading-tight">Where is my meds?</h1>
+        <p class="text-sm text-slate-500 font-medium hidden sm:block">Medication delivery status for patient-specific dispensing</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-2 text-slate-400">
+      <span class="text-sm font-medium hidden sm:inline-block">General Hospital Pharmacy</span>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24">
+
+  <!-- Search Panel -->
+  <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6 mb-8">
+    <div class="flex flex-col sm:flex-row gap-4">
+      <button type="button" id="scanBtn"
+        class="flex-shrink-0 h-14 px-6 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl flex items-center justify-center gap-2 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2">
+        <i data-lucide="scan-barcode" class="w-6 h-6"></i>
+        <span class="sm:hidden lg:inline">Scan Barcode</span>
+      </button>
+      <div class="flex-grow relative">
+        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+          <i data-lucide="search" class="h-6 w-6 text-slate-400"></i>
+        </div>
+        <input type="text" id="searchInput" autocomplete="off"
+          placeholder="Search by patient name or admission number..."
+          class="block w-full h-14 pl-12 pr-12 rounded-xl border border-slate-200 bg-slate-50 text-lg focus:ring-brand-500 focus:border-brand-500 transition-colors outline-none" />
+        <button type="button" id="clearInputBtn" class="absolute inset-y-0 right-0 pr-4 items-center text-slate-400 hover:text-slate-600 hidden">
+          <i data-lucide="x" class="h-5 w-5"></i>
+        </button>
+      </div>
+      <button type="button" id="searchBtn" disabled
+        class="flex-shrink-0 h-14 px-8 bg-brand-600 hover:bg-brand-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white rounded-xl flex items-center justify-center gap-2 font-bold text-lg transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2">
+        <span id="searchBtnLabel">Check Status</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Content area (rendered by JS) -->
+  <div id="content"></div>
+</main>
+
+<script src="js/datasource.js"></script>
+<script>
+const contentEl = document.getElementById('content');
+const input = document.getElementById('searchInput');
+const searchBtn = document.getElementById('searchBtn');
+const searchBtnLabel = document.getElementById('searchBtnLabel');
+const scanBtn = document.getElementById('scanBtn');
+const clearInputBtn = document.getElementById('clearInputBtn');
+
+const STATUS_CONFIG = {
+  'delivered':     { bg:'bg-emerald-50', border:'border-emerald-200', iconBg:'bg-emerald-100', iconColor:'text-emerald-600', titleColor:'text-emerald-800', descColor:'text-emerald-700', icon:'check-circle-2' },
+  'in-transit':    { bg:'bg-blue-50',    border:'border-blue-200',    iconBg:'bg-blue-100',    iconColor:'text-blue-600',    titleColor:'text-blue-800',    descColor:'text-blue-700',    icon:'truck' },
+  'in-production': { bg:'bg-amber-50',   border:'border-amber-200',   iconBg:'bg-amber-100',   iconColor:'text-amber-600',   titleColor:'text-amber-800',   descColor:'text-amber-700',   icon:'activity' },
+  'cancelled':     { bg:'bg-red-50',     border:'border-red-200',     iconBg:'bg-red-100',     iconColor:'text-red-600',     titleColor:'text-red-800',     descColor:'text-red-700',     icon:'x-circle' }
+};
+
+function esc(s){ return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function render(html){ contentEl.innerHTML = html; lucide.createIcons(); }
+
+function renderIdle(){
+  render(`
+  <div class="fade-in flex flex-col items-center justify-center py-20 text-center px-4">
+    <div class="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center mb-6">
+      <i data-lucide="scan-barcode" class="w-12 h-12 text-slate-400"></i>
+    </div>
+    <h2 class="text-2xl font-bold text-slate-700 mb-2">Ready to check medication status</h2>
+    <p class="text-lg text-slate-500 max-w-md">Scan a patient barcode or search by name/admission number to view delivery status.</p>
+  </div>`);
+}
+
+function renderError(){
+  render(`
+  <div class="fade-in bg-white rounded-2xl shadow-sm border border-slate-200 p-8 sm:p-12 text-center">
+    <div class="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6">
+      <i data-lucide="alert-circle" class="w-10 h-10 text-red-500"></i>
+    </div>
+    <h2 class="text-2xl font-bold text-slate-900 mb-3">Medication status temporarily unavailable</h2>
+    <p class="text-lg text-slate-600 mb-8 max-w-lg mx-auto">We couldn't connect to the pharmacy system. Please try again or contact pharmacy.</p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <button onclick="doSearch()" class="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl flex items-center justify-center gap-2 transition-colors">
+        <i data-lucide="refresh-cw" class="w-5 h-5"></i> Try again
+      </button>
+      <button class="px-6 py-3 bg-white border-2 border-slate-200 hover:border-slate-300 text-slate-700 font-semibold rounded-xl flex items-center justify-center gap-2 transition-colors">
+        <i data-lucide="phone" class="w-5 h-5"></i> Contact Pharmacy
+      </button>
+    </div>
+  </div>`);
+}
+
+function renderNotFound(){
+  render(`
+  <div class="fade-in bg-white rounded-2xl shadow-sm border border-slate-200 p-8 sm:p-12 text-center">
+    <div class="w-20 h-20 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-6">
+      <i data-lucide="alert-circle" class="w-10 h-10 text-amber-500"></i>
+    </div>
+    <h2 class="text-2xl font-bold text-slate-900 mb-3">No active medication delivery found</h2>
+    <p class="text-lg text-slate-600 mb-8 max-w-lg mx-auto">We couldn't find an active order for this patient. Please check the spelling or admission number.</p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <button onclick="clearAll()" class="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl transition-colors">Clear search</button>
+      <button class="px-6 py-3 bg-white border-2 border-slate-200 hover:border-slate-300 text-slate-700 font-semibold rounded-xl flex items-center justify-center gap-2 transition-colors">
+        <i data-lucide="phone" class="w-5 h-5"></i> Contact Pharmacy
+      </button>
+    </div>
+  </div>`);
+}
+
+function timelineItem(ev){
+  const circle = ev.isCancelled ? 'bg-red-100 text-red-600' : ev.completed ? 'bg-brand-100 text-brand-600' : 'bg-slate-100 text-slate-400';
+  const icon = ev.isCancelled ? 'x-circle' : ev.completed ? 'check-circle-2' : 'clock';
+  const iconSize = ev.completed || ev.isCancelled ? 'w-6 h-6' : 'w-5 h-5';
+  const title = ev.isCancelled ? 'text-red-700' : ev.current ? 'text-brand-700' : ev.completed ? 'text-slate-900' : 'text-slate-400';
+  return `
+  <div class="flex items-start gap-4">
+    <div class="relative z-10 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 border-4 border-white ${circle}">
+      <i data-lucide="${icon}" class="${iconSize}"></i>
+    </div>
+    <div class="pt-2.5">
+      <p class="text-lg font-bold ${title}">${esc(ev.title)}</p>
+      ${ev.timestamp ? `<p class="text-slate-500 font-medium mt-0.5">${esc(ev.timestamp)}</p>` : ''}
+    </div>
+  </div>`;
+}
+
+function renderSuccess(patient, order){
+  const c = STATUS_CONFIG[order.status] || STATUS_CONFIG['in-production'];
+  render(`
+  <div class="fade-in space-y-6">
+    <!-- Patient summary -->
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div class="flex items-start gap-5">
+        <div class="w-14 h-14 bg-brand-50 rounded-full flex items-center justify-center flex-shrink-0">
+          <i data-lucide="user" class="w-7 h-7 text-brand-600"></i>
+        </div>
+        <div>
+          <h2 class="text-2xl font-bold text-slate-900 mb-1">${esc(patient.name)}</h2>
+          <div class="flex flex-wrap items-center gap-x-6 gap-y-2 text-slate-600 font-medium">
+            <div class="flex items-center gap-1.5"><i data-lucide="hash" class="w-4 h-4 text-slate-400"></i><span>${esc(patient.admissionNumber)}</span></div>
+            <div class="flex items-center gap-1.5"><i data-lucide="map-pin" class="w-4 h-4 text-slate-400"></i><span>Ward ${esc(patient.ward)}, Room ${esc(patient.room)}, Bed ${esc(patient.bed)}</span></div>
+            <div class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-4 h-4 text-slate-400"></i><span>DOB: ${new Date(patient.dob).toLocaleDateString()}</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="text-right flex-shrink-0 bg-slate-50 px-4 py-3 rounded-xl border border-slate-100">
+        <p class="text-sm text-slate-500 font-medium mb-0.5">Last Updated</p>
+        <p class="text-slate-900 font-semibold flex items-center gap-1.5 justify-end">
+          <i data-lucide="clock" class="w-4 h-4 text-brand-600"></i>${esc(order.lastUpdated)}
+        </p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div class="lg:col-span-2 space-y-6">
+        <!-- Status card -->
+        <div class="${c.bg} ${c.border} border-2 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6 shadow-sm">
+          <div class="w-20 h-20 ${c.iconBg} rounded-full flex items-center justify-center flex-shrink-0">
+            <i data-lucide="${c.icon}" class="w-10 h-10 ${c.iconColor}"></i>
+          </div>
+          <div>
+            <h2 class="text-3xl sm:text-4xl font-black ${c.titleColor} mb-2 tracking-tight">${esc(order.statusMessage)}</h2>
+            <p class="text-lg font-medium ${c.descColor}">${esc(order.statusDetails)}</p>
+          </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
+          <h3 class="text-lg font-bold text-slate-900 mb-6">Delivery Journey</h3>
+          <div class="relative">
+            <div class="absolute left-6 top-6 bottom-6 w-0.5 bg-slate-100"></div>
+            <div class="space-y-8 relative">
+              ${order.timeline.map(timelineItem).join('')}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="space-y-6">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+          <h3 class="text-lg font-bold text-slate-900 mb-4">Order Details</h3>
+          <div class="space-y-4">
+            <div>
+              <p class="text-sm text-slate-500 font-medium mb-1">Dispense Order ID</p>
+              <p class="text-slate-900 font-mono font-medium bg-slate-50 px-3 py-2 rounded-lg border border-slate-100 inline-block">${esc(order.batchId)}</p>
+            </div>
+            <div class="pt-4 border-t border-slate-100 space-y-3">
+              <button class="w-full py-3.5 px-4 bg-white border-2 border-slate-200 hover:border-slate-300 text-slate-700 font-bold rounded-xl flex items-center justify-center gap-2 transition-colors">
+                <i data-lucide="phone" class="w-5 h-5"></i> Contact Pharmacy
+              </button>
+              <button onclick="doSearch()" class="w-full py-3.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl flex items-center justify-center gap-2 transition-colors">
+                <i data-lucide="refresh-cw" class="w-5 h-5"></i> Refresh Status
+              </button>
+              <button class="w-full py-3 px-4 text-slate-500 hover:text-slate-700 font-semibold rounded-xl flex items-center justify-center gap-2 transition-colors mt-2">
+                <i data-lucide="alert-circle" class="w-4 h-4"></i> Report Issue
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>`);
+}
+
+function setLoading(loading){
+  searchBtn.disabled = loading || !input.value.trim();
+  searchBtnLabel.innerHTML = loading ? '<i data-lucide="refresh-cw" class="w-6 h-6 spin"></i>' : 'Check Status';
+  lucide.createIcons();
+}
+
+async function doSearch(){
+  const q = input.value.trim();
+  if (!q) return;
+  setLoading(true);
+  // small delay to mimic the mockup's network feel
+  await new Promise(r => setTimeout(r, 500));
+  try {
+    const result = await window.DACSData.getPatientOrder(q);
+    if (result === 'not-found') renderNotFound();
+    else renderSuccess(result.patient, result.order);
+  } catch (e) {
+    renderError();
+  } finally {
+    setLoading(false);
+  }
+}
+
+function clearAll(){
+  input.value = '';
+  clearInputBtn.classList.add('hidden');
+  searchBtn.disabled = true;
+  renderIdle();
+}
+
+input.addEventListener('input', () => {
+  searchBtn.disabled = !input.value.trim();
+  clearInputBtn.classList.toggle('hidden', !input.value);
+  clearInputBtn.classList.toggle('flex', !!input.value);
+});
+input.addEventListener('keydown', (e) => { if (e.key === 'Enter') doSearch(); });
+searchBtn.addEventListener('click', doSearch);
+scanBtn.addEventListener('click', () => { input.value = 'A1234'; input.dispatchEvent(new Event('input')); doSearch(); });
+clearInputBtn.addEventListener('click', () => { input.value=''; input.dispatchEvent(new Event('input')); input.focus(); });
+
+renderIdle();
+</script>
+</body>
+</html>
