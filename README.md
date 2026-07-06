@@ -8,8 +8,10 @@ Interactive HTML demos of DACS user-facing dashboards. No build step required �
 |---|---|
 | `index.html` | Demo hub landing page |
 | `where-is-my-meds.html` | Medication delivery status tracker (patient-specific dispensing) |
+| `production-cockpit.html` | Daily Production Cockpit — risk-aware ward sequencing |
 | `data/orders.json` | Mock data snapshot (patients + orders) |
-| `js/datasource.js` | Data layer — reads the JSON snapshot today, switchable to a live API later |
+| `data/cockpit.json` | Mock data snapshot (production cockpit) |
+| `js/datasource.js` | Data layer — reads the JSON snapshots today, switchable to a live API later |
 
 ## Deploy on GitHub Pages
 
@@ -28,7 +30,7 @@ Search by admission number: `A1234` delivered · `A5678` in transit · `A9012` i
 All data access goes through `js/datasource.js`:
 
 - **Snapshot mode (current):** regenerate `data/orders.json` from a DACS export job and commit it.
-- **Live mode:** deploy to Azure Static Web Apps, add an Azure Function under `/api/orders` that queries the DACS test platform server-side (credentials never reach the browser, no CORS issues), then set `API_BASE = '/api'` in `js/datasource.js`. The function must return the same JSON shape as `data/orders.json`.
+- **Live mode:** deploy to Azure Static Web Apps, add Azure Functions under `/api/orders` and `/api/cockpit` that query the DACS test platform server-side (credentials never reach the browser, no CORS issues), then set `API_BASE = '/api'` in `js/datasource.js`. Each function must return the same JSON shape as the matching file in `data/`.
 
 ## Notes
 
