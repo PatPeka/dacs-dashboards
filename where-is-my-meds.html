@@ -1,23 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Where is my meds? — DACS Demo</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          brand: {
-            50: '#f0fdfa', 100: '#ccfbf1', 500: '#14b8a6',
-            600: '#0d9488', 700: '#0f766e', 900: '#134e4a'
-          }
-        }
-      }
-    }
-  }
+  tailwind.config = { theme: { extend: { colors: { brand: {
+    50:'#f0fdfa',100:'#ccfbf1',500:'#14b8a6',600:'#0d9488',700:'#0f766e',900:'#134e4a'
+  } } } } }
 </script>
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <style>
@@ -30,7 +21,6 @@
 </head>
 <body class="min-h-screen bg-slate-50 font-sans text-slate-900">
 
-<!-- Header -->
 <header class="bg-white border-b border-slate-200 sticky top-0 z-10">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
     <div class="flex items-center gap-3">
@@ -38,8 +28,8 @@
         <i data-lucide="activity" class="w-6 h-6"></i>
       </div>
       <div>
-        <h1 class="text-xl font-bold text-slate-900 leading-tight">Where is my meds?</h1>
-        <p class="text-sm text-slate-500 font-medium hidden sm:block">Medication delivery status for patient-specific dispensing</p>
+        <h1 class="text-xl font-bold text-slate-900 leading-tight" data-i18n="wim.title">Where is my meds?</h1>
+        <p class="text-sm text-slate-500 font-medium hidden sm:block" data-i18n="wim.subtitle">Medication delivery status for patient-specific dispensing</p>
       </div>
     </div>
     <div class="flex items-center gap-2 text-slate-400">
@@ -50,29 +40,28 @@
 
 <nav class="bg-white border-b border-slate-200">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-12 flex items-center gap-1 overflow-x-auto">
-      <a href="index.html" title="Back to menu" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-sm font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors"><i data-lucide="home" class="w-4 h-4"></i><span class="hidden sm:inline">Home</span></a>
-      <div class="h-5 w-px bg-slate-200 mx-1"></div>
-      <a href="where-is-my-meds.html" aria-current="page" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-sm font-medium transition-colors bg-blue-600 text-white"><i data-lucide="pill" class="w-4 h-4"></i><span class="hidden md:inline">Where is my med</span></a>
-      <a href="production-cockpit.html" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-sm font-medium transition-colors text-slate-500 hover:text-slate-900 hover:bg-slate-100"><i data-lucide="layout-dashboard" class="w-4 h-4"></i><span class="hidden md:inline">Production Cockpit</span></a>
-      <a href="ward-status.html" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-sm font-medium transition-colors text-slate-500 hover:text-slate-900 hover:bg-slate-100"><i data-lucide="layout-grid" class="w-4 h-4"></i><span class="hidden md:inline">Ward Status</span></a>
+    <a href="index.html" data-i18n-title="nav.home" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-sm font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors"><i data-lucide="home" class="w-4 h-4"></i><span class="hidden sm:inline" data-i18n="nav.home">Home</span></a>
+    <div class="h-5 w-px bg-slate-200 mx-1"></div>
+    <a href="where-is-my-meds.html" aria-current="page" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-sm font-medium transition-colors bg-blue-600 text-white"><i data-lucide="pill" class="w-4 h-4"></i><span class="hidden md:inline" data-i18n="nav.wim">Where is my med</span></a>
+    <a href="production-cockpit.html" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-sm font-medium transition-colors text-slate-500 hover:text-slate-900 hover:bg-slate-100"><i data-lucide="layout-dashboard" class="w-4 h-4"></i><span class="hidden md:inline" data-i18n="nav.cockpit">Production Cockpit</span></a>
+    <a href="ward-status.html" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-sm font-medium transition-colors text-slate-500 hover:text-slate-900 hover:bg-slate-100"><i data-lucide="layout-grid" class="w-4 h-4"></i><span class="hidden md:inline" data-i18n="nav.ward">Ward Status</span></a>
+    <button id="langToggle" class="ml-auto inline-flex items-center justify-center h-8 w-10 rounded-lg border border-slate-200 bg-white text-sm font-semibold text-slate-600 hover:bg-slate-100 transition-colors">FR</button>
   </div>
 </nav>
 
 <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24">
-
-  <!-- Search Panel -->
   <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6 mb-8">
     <div class="flex flex-col sm:flex-row gap-4">
       <button type="button" id="scanBtn"
         class="flex-shrink-0 h-14 px-6 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl flex items-center justify-center gap-2 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2">
         <i data-lucide="scan-barcode" class="w-6 h-6"></i>
-        <span class="sm:hidden lg:inline">Scan Barcode</span>
+        <span class="sm:hidden lg:inline" data-i18n="wim.scan">Scan Barcode</span>
       </button>
       <div class="flex-grow relative">
         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
           <i data-lucide="search" class="h-6 w-6 text-slate-400"></i>
         </div>
-        <input type="text" id="searchInput" autocomplete="off"
+        <input type="text" id="searchInput" autocomplete="off" data-i18n-ph="wim.search.ph"
           placeholder="Search by patient name or admission number..."
           class="block w-full h-14 pl-12 pr-12 rounded-xl border border-slate-200 bg-slate-50 text-lg focus:ring-brand-500 focus:border-brand-500 transition-colors outline-none" />
         <button type="button" id="clearInputBtn" class="absolute inset-y-0 right-0 pr-4 items-center text-slate-400 hover:text-slate-600 hidden">
@@ -81,17 +70,18 @@
       </div>
       <button type="button" id="searchBtn" disabled
         class="flex-shrink-0 h-14 px-8 bg-brand-600 hover:bg-brand-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white rounded-xl flex items-center justify-center gap-2 font-bold text-lg transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2">
-        <span id="searchBtnLabel">Check Status</span>
+        <span id="searchBtnLabel" data-i18n="wim.check">Check Status</span>
       </button>
     </div>
   </div>
-
-  <!-- Content area (rendered by JS) -->
   <div id="content"></div>
 </main>
 
+<script src="js/i18n.js"></script>
 <script src="js/datasource.js"></script>
 <script>
+const T = (k,v)=>window.I18N.t(k,v);
+const today = (hhmm)=> hhmm ? T('time.today',{t:hhmm}) : '';
 const contentEl = document.getElementById('content');
 const input = document.getElementById('searchInput');
 const searchBtn = document.getElementById('searchBtn');
@@ -105,52 +95,69 @@ const STATUS_CONFIG = {
   'in-production': { bg:'bg-amber-50',   border:'border-amber-200',   iconBg:'bg-amber-100',   iconColor:'text-amber-600',   titleColor:'text-amber-800',   descColor:'text-amber-700',   icon:'activity' },
   'cancelled':     { bg:'bg-red-50',     border:'border-red-200',     iconBg:'bg-red-100',     iconColor:'text-red-600',     titleColor:'text-red-800',     descColor:'text-red-700',     icon:'x-circle' }
 };
+const BUCKET = { 'delivered':'delivered','in-transit':'in-transit','in-production':'in-production','stock-out':'in-production','waiting-rcp':'in-production','cancelled':'cancelled','none':'cancelled' };
+
+let currentView = { type:'idle' };
 
 function esc(s){ return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function render(html){ contentEl.innerHTML = html; lucide.createIcons(); }
 
+function statusOf(order){
+  const bucket = BUCKET[order.statusCode] || 'in-production';
+  const cfg = STATUS_CONFIG[bucket];
+  const message = T('statusmsg.'+order.statusCode);
+  let time = '';
+  if (order.statusCode === 'delivered') { const s=order.timeline.find(x=>x.key==='delivered'); time = today(s && s.time); }
+  else if (order.statusCode === 'in-transit') { const s=order.timeline.find(x=>x.key==='picked'); time = today(s && s.time); }
+  const details = T('details.'+order.statusCode, { time, round: order.adminTime });
+  return { cfg, message, details };
+}
+
 function renderIdle(){
+  currentView = { type:'idle' };
   render(`
   <div class="fade-in flex flex-col items-center justify-center py-20 text-center px-4">
     <div class="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center mb-6">
       <i data-lucide="scan-barcode" class="w-12 h-12 text-slate-400"></i>
     </div>
-    <h2 class="text-2xl font-bold text-slate-700 mb-2">Ready to check medication status</h2>
-    <p class="text-lg text-slate-500 max-w-md">Scan a patient barcode or search by name/admission number to view delivery status.</p>
+    <h2 class="text-2xl font-bold text-slate-700 mb-2">${esc(T('wim.idle.title'))}</h2>
+    <p class="text-lg text-slate-500 max-w-md">${esc(T('wim.idle.body'))}</p>
   </div>`);
 }
 
 function renderError(){
+  currentView = { type:'error' };
   render(`
   <div class="fade-in bg-white rounded-2xl shadow-sm border border-slate-200 p-8 sm:p-12 text-center">
     <div class="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6">
       <i data-lucide="alert-circle" class="w-10 h-10 text-red-500"></i>
     </div>
-    <h2 class="text-2xl font-bold text-slate-900 mb-3">Medication status temporarily unavailable</h2>
-    <p class="text-lg text-slate-600 mb-8 max-w-lg mx-auto">We couldn't connect to the pharmacy system. Please try again or contact pharmacy.</p>
+    <h2 class="text-2xl font-bold text-slate-900 mb-3">${esc(T('wim.err.title'))}</h2>
+    <p class="text-lg text-slate-600 mb-8 max-w-lg mx-auto">${esc(T('wim.err.body'))}</p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
       <button onclick="doSearch()" class="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl flex items-center justify-center gap-2 transition-colors">
-        <i data-lucide="refresh-cw" class="w-5 h-5"></i> Try again
+        <i data-lucide="refresh-cw" class="w-5 h-5"></i> ${esc(T('wim.err.retry'))}
       </button>
       <button class="px-6 py-3 bg-white border-2 border-slate-200 hover:border-slate-300 text-slate-700 font-semibold rounded-xl flex items-center justify-center gap-2 transition-colors">
-        <i data-lucide="phone" class="w-5 h-5"></i> Contact Pharmacy
+        <i data-lucide="phone" class="w-5 h-5"></i> ${esc(T('wim.contact'))}
       </button>
     </div>
   </div>`);
 }
 
 function renderNotFound(){
+  currentView = { type:'nf' };
   render(`
   <div class="fade-in bg-white rounded-2xl shadow-sm border border-slate-200 p-8 sm:p-12 text-center">
     <div class="w-20 h-20 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-6">
       <i data-lucide="alert-circle" class="w-10 h-10 text-amber-500"></i>
     </div>
-    <h2 class="text-2xl font-bold text-slate-900 mb-3">No active medication delivery found</h2>
-    <p class="text-lg text-slate-600 mb-8 max-w-lg mx-auto">We couldn't find an active order for this patient. Please check the spelling or admission number.</p>
+    <h2 class="text-2xl font-bold text-slate-900 mb-3">${esc(T('wim.nf.title'))}</h2>
+    <p class="text-lg text-slate-600 mb-8 max-w-lg mx-auto">${esc(T('wim.nf.body'))}</p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
-      <button onclick="clearAll()" class="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl transition-colors">Clear search</button>
+      <button onclick="clearAll()" class="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl transition-colors">${esc(T('wim.clear'))}</button>
       <button class="px-6 py-3 bg-white border-2 border-slate-200 hover:border-slate-300 text-slate-700 font-semibold rounded-xl flex items-center justify-center gap-2 transition-colors">
-        <i data-lucide="phone" class="w-5 h-5"></i> Contact Pharmacy
+        <i data-lucide="phone" class="w-5 h-5"></i> ${esc(T('wim.contact'))}
       </button>
     </div>
   </div>`);
@@ -160,24 +167,26 @@ function timelineItem(ev){
   const circle = ev.isCancelled ? 'bg-red-100 text-red-600' : ev.completed ? 'bg-brand-100 text-brand-600' : 'bg-slate-100 text-slate-400';
   const icon = ev.isCancelled ? 'x-circle' : ev.completed ? 'check-circle-2' : 'clock';
   const iconSize = ev.completed || ev.isCancelled ? 'w-6 h-6' : 'w-5 h-5';
-  const title = ev.isCancelled ? 'text-red-700' : ev.current ? 'text-brand-700' : ev.completed ? 'text-slate-900' : 'text-slate-400';
+  const titleColor = ev.isCancelled ? 'text-red-700' : ev.current ? 'text-brand-700' : ev.completed ? 'text-slate-900' : 'text-slate-400';
+  const title = T('tl.'+ev.key);
+  const ts = ev.time ? today(ev.time) : '';
   return `
   <div class="flex items-start gap-4">
     <div class="relative z-10 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 border-4 border-white ${circle}">
       <i data-lucide="${icon}" class="${iconSize}"></i>
     </div>
     <div class="pt-2.5">
-      <p class="text-lg font-bold ${title}">${esc(ev.title)}</p>
-      ${ev.timestamp ? `<p class="text-slate-500 font-medium mt-0.5">${esc(ev.timestamp)}</p>` : ''}
+      <p class="text-lg font-bold ${titleColor}">${esc(title)}</p>
+      ${ts ? `<p class="text-slate-500 font-medium mt-0.5">${esc(ts)}</p>` : ''}
     </div>
   </div>`;
 }
 
 function renderSuccess(patient, order){
-  const c = STATUS_CONFIG[order.status] || STATUS_CONFIG['in-production'];
+  currentView = { type:'success', patient, order };
+  const { cfg, message, details } = statusOf(order);
   render(`
   <div class="fade-in space-y-6">
-    <!-- Patient summary -->
     <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
       <div class="flex items-start gap-5">
         <div class="w-14 h-14 bg-brand-50 rounded-full flex items-center justify-center flex-shrink-0">
@@ -187,35 +196,33 @@ function renderSuccess(patient, order){
           <h2 class="text-2xl font-bold text-slate-900 mb-1">${esc(patient.name)}</h2>
           <div class="flex flex-wrap items-center gap-x-6 gap-y-2 text-slate-600 font-medium">
             <div class="flex items-center gap-1.5"><i data-lucide="hash" class="w-4 h-4 text-slate-400"></i><span>${esc(patient.admissionNumber)}</span></div>
-            <div class="flex items-center gap-1.5"><i data-lucide="map-pin" class="w-4 h-4 text-slate-400"></i><span>Ward ${esc(patient.ward)}, Room ${esc(patient.room)}, Bed ${esc(patient.bed)}</span></div>
-            <div class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-4 h-4 text-slate-400"></i><span>DOB: ${new Date(patient.dob).toLocaleDateString()}</span></div>
+            <div class="flex items-center gap-1.5"><i data-lucide="map-pin" class="w-4 h-4 text-slate-400"></i><span>${esc(T('wim.ward'))} ${esc(patient.ward)}, ${esc(T('wim.room'))} ${esc(patient.room)}, ${esc(T('wim.bed'))} ${esc(patient.bed)}</span></div>
+            <div class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-4 h-4 text-slate-400"></i><span>${esc(T('wim.dob'))}: ${new Date(patient.dob).toLocaleDateString(window.I18N.lang==='fr'?'fr-BE':'en-GB')}</span></div>
           </div>
         </div>
       </div>
       <div class="text-right flex-shrink-0 bg-slate-50 px-4 py-3 rounded-xl border border-slate-100">
-        <p class="text-sm text-slate-500 font-medium mb-0.5">Last Updated</p>
+        <p class="text-sm text-slate-500 font-medium mb-0.5">${esc(T('wim.lastUpdated'))}</p>
         <p class="text-slate-900 font-semibold flex items-center gap-1.5 justify-end">
-          <i data-lucide="clock" class="w-4 h-4 text-brand-600"></i>${esc(order.lastUpdated)}
+          <i data-lucide="clock" class="w-4 h-4 text-brand-600"></i>${esc(today(order.lastUpdatedTime))}
         </p>
       </div>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <div class="lg:col-span-2 space-y-6">
-        <!-- Status card -->
-        <div class="${c.bg} ${c.border} border-2 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6 shadow-sm">
-          <div class="w-20 h-20 ${c.iconBg} rounded-full flex items-center justify-center flex-shrink-0">
-            <i data-lucide="${c.icon}" class="w-10 h-10 ${c.iconColor}"></i>
+        <div class="${cfg.bg} ${cfg.border} border-2 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6 shadow-sm">
+          <div class="w-20 h-20 ${cfg.iconBg} rounded-full flex items-center justify-center flex-shrink-0">
+            <i data-lucide="${cfg.icon}" class="w-10 h-10 ${cfg.iconColor}"></i>
           </div>
           <div>
-            <h2 class="text-3xl sm:text-4xl font-black ${c.titleColor} mb-2 tracking-tight">${esc(order.statusMessage)}</h2>
-            <p class="text-lg font-medium ${c.descColor}">${esc(order.statusDetails)}</p>
+            <h2 class="text-3xl sm:text-4xl font-black ${cfg.titleColor} mb-2 tracking-tight">${esc(message)}</h2>
+            <p class="text-lg font-medium ${cfg.descColor}">${esc(details)}</p>
           </div>
         </div>
 
-        <!-- Timeline -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
-          <h3 class="text-lg font-bold text-slate-900 mb-6">Delivery Journey</h3>
+          <h3 class="text-lg font-bold text-slate-900 mb-6">${esc(T('wim.journey'))}</h3>
           <div class="relative">
             <div class="absolute left-6 top-6 bottom-6 w-0.5 bg-slate-100"></div>
             <div class="space-y-8 relative">
@@ -225,24 +232,23 @@ function renderSuccess(patient, order){
         </div>
       </div>
 
-      <!-- Sidebar -->
       <div class="space-y-6">
         <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-          <h3 class="text-lg font-bold text-slate-900 mb-4">Order Details</h3>
+          <h3 class="text-lg font-bold text-slate-900 mb-4">${esc(T('wim.orderDetails'))}</h3>
           <div class="space-y-4">
             <div>
-              <p class="text-sm text-slate-500 font-medium mb-1">Dispense Order ID</p>
+              <p class="text-sm text-slate-500 font-medium mb-1">${esc(T('wim.dispenseId'))}</p>
               <p class="text-slate-900 font-mono font-medium bg-slate-50 px-3 py-2 rounded-lg border border-slate-100 inline-block">${esc(order.batchId)}</p>
             </div>
             <div class="pt-4 border-t border-slate-100 space-y-3">
               <button class="w-full py-3.5 px-4 bg-white border-2 border-slate-200 hover:border-slate-300 text-slate-700 font-bold rounded-xl flex items-center justify-center gap-2 transition-colors">
-                <i data-lucide="phone" class="w-5 h-5"></i> Contact Pharmacy
+                <i data-lucide="phone" class="w-5 h-5"></i> ${esc(T('wim.contact'))}
               </button>
               <button onclick="doSearch()" class="w-full py-3.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl flex items-center justify-center gap-2 transition-colors">
-                <i data-lucide="refresh-cw" class="w-5 h-5"></i> Refresh Status
+                <i data-lucide="refresh-cw" class="w-5 h-5"></i> ${esc(T('wim.refresh'))}
               </button>
               <button class="w-full py-3 px-4 text-slate-500 hover:text-slate-700 font-semibold rounded-xl flex items-center justify-center gap-2 transition-colors mt-2">
-                <i data-lucide="alert-circle" class="w-4 h-4"></i> Report Issue
+                <i data-lucide="alert-circle" class="w-4 h-4"></i> ${esc(T('wim.report'))}
               </button>
             </div>
           </div>
@@ -254,7 +260,7 @@ function renderSuccess(patient, order){
 
 function setLoading(loading){
   searchBtn.disabled = loading || !input.value.trim();
-  searchBtnLabel.innerHTML = loading ? '<i data-lucide="refresh-cw" class="w-6 h-6 spin"></i>' : 'Check Status';
+  searchBtnLabel.innerHTML = loading ? '<i data-lucide="refresh-cw" class="w-6 h-6 spin"></i>' : esc(T('wim.check'));
   lucide.createIcons();
 }
 
@@ -262,7 +268,6 @@ async function doSearch(){
   const q = input.value.trim();
   if (!q) return;
   setLoading(true);
-  // small delay to mimic the mockup's network feel
   await new Promise(r => setTimeout(r, 500));
   try {
     const result = await window.DACSData.getPatientOrder(q);
@@ -282,6 +287,14 @@ function clearAll(){
   renderIdle();
 }
 
+function reRender(){
+  setLoading(false);
+  if (currentView.type === 'success') renderSuccess(currentView.patient, currentView.order);
+  else if (currentView.type === 'error') renderError();
+  else if (currentView.type === 'nf') renderNotFound();
+  else renderIdle();
+}
+
 input.addEventListener('input', () => {
   searchBtn.disabled = !input.value.trim();
   clearInputBtn.classList.toggle('hidden', !input.value);
@@ -289,8 +302,9 @@ input.addEventListener('input', () => {
 });
 input.addEventListener('keydown', (e) => { if (e.key === 'Enter') doSearch(); });
 searchBtn.addEventListener('click', doSearch);
-scanBtn.addEventListener('click', () => { input.value = 'A1234'; input.dispatchEvent(new Event('input')); doSearch(); });
+scanBtn.addEventListener('click', () => { input.value = 'A2201'; input.dispatchEvent(new Event('input')); doSearch(); });
 clearInputBtn.addEventListener('click', () => { input.value=''; input.dispatchEvent(new Event('input')); input.focus(); });
+window.addEventListener('i18n:changed', reRender);
 
 renderIdle();
 </script>

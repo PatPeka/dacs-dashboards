@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -23,7 +23,7 @@
         <span class="font-bold text-xl tracking-tight text-slate-800">DACS</span>
       </div>
       <div class="h-5 w-px bg-slate-300 mx-1"></div>
-      <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-50 text-blue-700 border border-blue-100">Assist</span>
+      <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-50 text-blue-700 border border-blue-100" data-i18n="cockpit.assist">Assist</span>
     </div>
     <div class="flex items-center gap-6 text-sm">
       <div class="flex items-center gap-2 text-slate-600"><i data-lucide="clock" class="w-4 h-4"></i><span id="hdrDate">—</span></div>
@@ -35,38 +35,39 @@
 
 <nav class="bg-white border-b border-slate-200">
   <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 h-12 flex items-center gap-1 overflow-x-auto">
-      <a href="index.html" title="Back to menu" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-sm font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors"><i data-lucide="home" class="w-4 h-4"></i><span class="hidden sm:inline">Home</span></a>
-      <div class="h-5 w-px bg-slate-200 mx-1"></div>
-      <a href="where-is-my-meds.html" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-sm font-medium transition-colors text-slate-500 hover:text-slate-900 hover:bg-slate-100"><i data-lucide="pill" class="w-4 h-4"></i><span class="hidden md:inline">Where is my med</span></a>
-      <a href="production-cockpit.html" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-sm font-medium transition-colors text-slate-500 hover:text-slate-900 hover:bg-slate-100"><i data-lucide="layout-dashboard" class="w-4 h-4"></i><span class="hidden md:inline">Production Cockpit</span></a>
-      <a href="ward-status.html" aria-current="page" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-sm font-medium transition-colors bg-blue-600 text-white"><i data-lucide="layout-grid" class="w-4 h-4"></i><span class="hidden md:inline">Ward Status</span></a>
+    <a href="index.html" data-i18n-title="nav.home" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-sm font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors"><i data-lucide="home" class="w-4 h-4"></i><span class="hidden sm:inline" data-i18n="nav.home">Home</span></a>
+    <div class="h-5 w-px bg-slate-200 mx-1"></div>
+    <a href="where-is-my-meds.html" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-sm font-medium transition-colors text-slate-500 hover:text-slate-900 hover:bg-slate-100"><i data-lucide="pill" class="w-4 h-4"></i><span class="hidden md:inline" data-i18n="nav.wim">Where is my med</span></a>
+    <a href="production-cockpit.html" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-sm font-medium transition-colors text-slate-500 hover:text-slate-900 hover:bg-slate-100"><i data-lucide="layout-dashboard" class="w-4 h-4"></i><span class="hidden md:inline" data-i18n="nav.cockpit">Production Cockpit</span></a>
+    <a href="ward-status.html" aria-current="page" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-sm font-medium transition-colors bg-blue-600 text-white"><i data-lucide="layout-grid" class="w-4 h-4"></i><span class="hidden md:inline" data-i18n="nav.ward">Ward Status</span></a>
+    <button id="langToggle" class="ml-auto inline-flex items-center justify-center h-8 w-10 rounded-lg border border-slate-200 bg-white text-sm font-semibold text-slate-600 hover:bg-slate-100 transition-colors">FR</button>
   </div>
 </nav>
 
 <main class="max-w-[1600px] mx-auto px-6 py-8 space-y-6">
   <div>
-    <h1 class="text-2xl font-bold text-slate-900">Ward Medication Status</h1>
-    <p class="text-slate-500 mt-1">Where is my med — ward view. Supply and administration status by bed, no patient names. Prepare the round, anticipate problems.</p>
+    <h1 class="text-2xl font-bold text-slate-900" data-i18n="ward.title">Ward Medication Status</h1>
+    <p class="text-slate-500 mt-1" data-i18n="ward.subtitle">Where is my med — ward view. Supply and administration status by bed, no patient names. Prepare the round, anticipate problems.</p>
   </div>
 
   <!-- Controls -->
   <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex flex-col lg:flex-row lg:items-end gap-4">
     <div class="flex flex-wrap items-end gap-4 flex-grow">
       <label class="block">
-        <span class="text-xs font-medium text-slate-500 mb-1 block">Ward</span>
+        <span class="text-xs font-medium text-slate-500 mb-1 block" data-i18n="ward.ctrl.ward">Ward</span>
         <div id="wardName" class="h-10 px-3 flex items-center rounded-lg border border-slate-200 bg-slate-50 font-medium text-slate-800 text-sm">—</div>
       </label>
       <label class="block">
-        <span class="text-xs font-medium text-slate-500 mb-1 block">Admin time</span>
+        <span class="text-xs font-medium text-slate-500 mb-1 block" data-i18n="ward.ctrl.adminTime">Admin time</span>
         <select id="adminTimeSel" class="h-10 px-3 rounded-lg border border-slate-200 bg-white text-sm font-medium focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"></select>
       </label>
       <label class="block">
-        <span class="text-xs font-medium text-slate-500 mb-1 block">Look ahead</span>
+        <span class="text-xs font-medium text-slate-500 mb-1 block" data-i18n="ward.ctrl.lookAhead">Look ahead</span>
         <select id="lookAheadSel" class="h-10 px-3 rounded-lg border border-slate-200 bg-white text-sm font-medium focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"></select>
       </label>
     </div>
     <div>
-      <span class="text-xs font-medium text-slate-500 mb-1 block">Reconciliation modules <span class="text-slate-400 font-normal">— toggle to see certainty change</span></span>
+      <span class="text-xs font-medium text-slate-500 mb-1 block"><span data-i18n="ward.ctrl.modules">Reconciliation modules</span> <span class="text-slate-400 font-normal">— <span data-i18n="ward.ctrl.modulesHint">toggle to see certainty change</span></span></span>
       <div id="moduleToggles" class="flex flex-wrap gap-2"></div>
     </div>
   </div>
@@ -74,10 +75,7 @@
   <!-- Neutral-base note -->
   <div class="bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 flex items-start gap-3">
     <i data-lucide="info" class="w-5 h-5 text-blue-600 shrink-0 mt-0.5"></i>
-    <p class="text-sm text-blue-900 leading-relaxed" id="baseNote">
-      The base model is neutral: it only knows what was delivered. Reconciliation modules add administration outcomes.
-      With every module off, delivered doses stay <span class="font-semibold">Unknown</span> — the system never assumes.
-    </p>
+    <p class="text-sm text-blue-900 leading-relaxed" id="baseNote" data-i18n-html="ward.baseNote"></p>
   </div>
 
   <!-- Summary strip -->
@@ -88,13 +86,15 @@
 
   <!-- Legend -->
   <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
-    <h3 class="text-sm font-bold text-slate-900 mb-3 flex items-center gap-2"><i data-lucide="list" class="w-4 h-4 text-slate-400"></i> Status taxonomy</h3>
+    <h3 class="text-sm font-bold text-slate-900 mb-3 flex items-center gap-2"><i data-lucide="list" class="w-4 h-4 text-slate-400"></i> <span data-i18n="ward.legendTitle">Status taxonomy</span></h3>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-2 text-sm" id="legend"></div>
   </div>
 </main>
 
+<script src="js/i18n.js"></script>
 <script src="js/datasource.js"></script>
 <script>
+const T = (k,v)=>window.I18N.t(k,v);
 // ---------- Status taxonomy ----------
 const ADMIN = {
   administered:        { label: 'Administered',        conf: 'Confirmed', tile: 'bg-emerald-50 border-emerald-200', text: 'text-emerald-800', dot: 'bg-emerald-500' },
@@ -148,10 +148,10 @@ function derive(bed, round) {
 
   if (emarAdmin && bagReturned) {
     admin = 'contradiction';
-    flag = { type: 'contradiction', text: 'eMAR says administered, but bag was returned — review.' };
+    flag = { type: 'contradiction' };
   } else if (bagReturned && adtDischarge) {
     admin = 'not-taken';
-    flag = { type: 'confirmation', text: 'Bag returned and patient discharged before admin — confirmed.' };
+    flag = { type: 'confirmation' };
   } else if (bagReturned) {
     admin = 'not-taken';
   } else if (emarAdmin) {
@@ -181,15 +181,15 @@ function renderControls() {
   at.innerHTML = DATA.adminTimes.map(t => `<option value="${t}">${t}</option>`).join('');
   at.value = state.adminTime;
   const la = document.getElementById('lookAheadSel');
-  la.innerHTML = DATA.lookAheadOptions.map(o => `<option value="${esc(o)}">${esc(o)}</option>`).join('');
+  la.innerHTML = DATA.lookAheadOptions.map(o => `<option value="${esc(o)}">${esc(T('lookahead.'+o))}</option>`).join('');
   la.value = state.lookAhead;
 
   document.getElementById('moduleToggles').innerHTML = MODULE_DEFS.map(md => {
     const on = state.modules[md.key];
-    return `<button data-mod="${md.key}" title="${esc(md.hint)}"
+    return `<button data-mod="${md.key}" title="${esc(T('module.'+md.key+'.hint'))}"
       class="inline-flex items-center gap-1.5 px-3 h-9 rounded-lg border text-sm font-medium transition-colors
       ${on ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300'}">
-      <span class="w-2 h-2 rounded-full ${on ? 'bg-white' : 'bg-slate-300'}"></span>${esc(md.label)}</button>`;
+      <span class="w-2 h-2 rounded-full ${on ? 'bg-white' : 'bg-slate-300'}"></span>${esc(T('module.'+md.key))}</button>`;
   }).join('');
   document.querySelectorAll('#moduleToggles button').forEach(btn =>
     btn.addEventListener('click', () => { state.modules[btn.dataset.mod] = !state.modules[btn.dataset.mod]; render(); })
@@ -210,7 +210,7 @@ function aheadChip(room, bed) {
   if (!['stock-out', 'waiting-rcp', 'cancelled'].includes(nb.supply)) return '';
   const sup = SUPPLY[nb.supply];
   return `<div class="mt-2 flex items-center gap-1.5 text-xs font-medium text-slate-500 border-t border-slate-100 pt-2">
-    <i data-lucide="corner-down-right" class="w-3.5 h-3.5"></i> ${nk}: <span class="${sup.text}">${esc(sup.label)}</span></div>`;
+    <i data-lucide="corner-down-right" class="w-3.5 h-3.5"></i> ${nk}: <span class="${sup.text}">${esc(T('supply.'+nb.supply))}</span></div>`;
 }
 
 function tile(bed, round) {
@@ -221,16 +221,16 @@ function tile(bed, round) {
   if (d.kind === 'supply') {
     // Supply problem or upcoming — the tile leads with the supply state.
     const isProblem = ['stock-out', 'waiting-rcp'].includes(d.supply);
-    confLabel = isProblem ? 'Action' : (d.supply === 'cancelled' ? 'Closed' : 'Upcoming');
+    confLabel = isProblem ? T('tilestate.action') : (d.supply === 'cancelled' ? T('tilestate.closed') : T('tilestate.upcoming'));
     ring = isProblem ? 'bg-red-50 border-red-200' : 'bg-white border-slate-200';
     const pill = isProblem ? 'bg-red-100 text-red-700' : 'bg-slate-100 text-slate-500';
     return `<div class="tile rounded-xl border ${ring} p-4">
       <div class="flex items-center justify-between mb-3">
-        <div class="font-bold text-slate-900">Room ${esc(bed.room)} · Bed ${esc(bed.bed)}</div>
+        <div class="font-bold text-slate-900">${esc(T('ward.room'))} ${esc(bed.room)} · ${esc(T('ward.bed'))} ${esc(bed.bed)}</div>
         <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full ${pill}">${confLabel}</span>
       </div>
-      <div class="flex items-center gap-2 ${sup.text} mb-1"><i data-lucide="${sup.icon}" class="w-5 h-5"></i><span class="text-lg font-bold">${esc(sup.label)}</span></div>
-      <p class="text-sm text-slate-500">${isProblem ? 'Visible outside pharmacy — no CPOE integration needed.' : (d.supply === 'cancelled' ? 'Order withdrawn by admission/transfer/discharge.' : 'Dose not yet delivered for this round.')}</p>
+      <div class="flex items-center gap-2 ${sup.text} mb-1"><i data-lucide="${sup.icon}" class="w-5 h-5"></i><span class="text-lg font-bold">${esc(T('supply.'+d.supply))}</span></div>
+      <p class="text-sm text-slate-500">${isProblem ? T('tile.supplyProblem') : (d.supply === 'cancelled' ? T('tile.cancelled') : T('tile.upcoming'))}</p>
       ${aheadChip(bed.room, bed.bed)}
     </div>`;
   }
@@ -241,18 +241,18 @@ function tile(bed, round) {
     <div class="mt-3 flex items-start gap-2 text-xs font-medium px-2.5 py-2 rounded-lg border
       ${d.flag.type === 'contradiction' ? 'bg-rose-50 border-rose-200 text-rose-800' : 'bg-emerald-50 border-emerald-200 text-emerald-800'}">
       <i data-lucide="${d.flag.type === 'contradiction' ? 'alert-triangle' : 'check-check'}" class="w-4 h-4 shrink-0 mt-0.5"></i>
-      <span>${esc(d.flag.text)}</span>
+      <span>${esc(T('flag.'+d.flag.type))}</span>
     </div>` : '';
 
   return `<div class="tile rounded-xl border ${a.tile} p-4">
     <div class="flex items-center justify-between mb-3">
-      <div class="font-bold text-slate-900">Room ${esc(bed.room)} · Bed ${esc(bed.bed)}</div>
-      <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full ${CONF_PILL[a.conf]}">${a.conf}</span>
+      <div class="font-bold text-slate-900">${esc(T('ward.room'))} ${esc(bed.room)} · ${esc(T('ward.bed'))} ${esc(bed.bed)}</div>
+      <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full ${CONF_PILL[a.conf]}">${esc(T('conf.'+a.conf))}</span>
     </div>
-    <div class="flex items-center gap-2 ${sup.text} text-sm mb-2"><i data-lucide="${sup.icon}" class="w-4 h-4"></i><span>${esc(sup.label)}${bed.deliveredAt ? ' · ' + esc(bed.deliveredAt) : ''}</span></div>
+    <div class="flex items-center gap-2 ${sup.text} text-sm mb-2"><i data-lucide="${sup.icon}" class="w-4 h-4"></i><span>${esc(T('supply.'+d.supply))}${bed.deliveredAt ? ' · ' + esc(bed.deliveredAt) : ''}</span></div>
     <div class="flex items-center gap-2 mb-1">
       <span class="w-2.5 h-2.5 rounded-full ${a.dot}"></span>
-      <span class="text-lg font-bold ${a.text}">${a.label}</span>
+      <span class="text-lg font-bold ${a.text}">${esc(T('admin.'+d.admin))}</span>
     </div>
     ${chips.length ? `<div class="flex flex-wrap gap-1.5 mt-2">${chips.map(c => `<span class="text-[11px] font-semibold px-2 py-0.5 rounded-full ${c.cls}">${c.label}</span>`).join('')}</div>` : ''}
     ${flagBox}
@@ -270,28 +270,21 @@ function renderSummary(round) {
   const card = (label, val, cls) => `<div class="bg-white rounded-xl border border-slate-200 px-4 py-3">
     <div class="text-2xl font-bold ${cls}">${val}</div><div class="text-xs font-medium text-slate-500 mt-0.5">${label}</div></div>`;
   document.getElementById('summary').innerHTML =
-    card('Administered', counts.administered, 'text-emerald-600') +
-    card('Presumed', counts['assumed-admin'] + counts['assumed-not-taken'], 'text-amber-600') +
-    card('Not taken', counts['not-taken'], 'text-orange-600') +
-    card('Unknown', counts.unknown, 'text-slate-500') +
-    card('To review', counts.contradiction, 'text-rose-600') +
-    card('Supply alerts', counts.supplyProblem, 'text-red-600');
+    card(T('sum.administered'), counts.administered, 'text-emerald-600') +
+    card(T('sum.presumed'), counts['assumed-admin'] + counts['assumed-not-taken'], 'text-amber-600') +
+    card(T('sum.notTaken'), counts['not-taken'], 'text-orange-600') +
+    card(T('sum.unknown'), counts.unknown, 'text-slate-500') +
+    card(T('sum.toReview'), counts.contradiction, 'text-rose-600') +
+    card(T('sum.supplyAlerts'), counts.supplyProblem, 'text-red-600');
 }
 
 function renderLegend() {
-  const rows = [
-    ['administered', 'eMAR confirms administration'],
-    ['assumed-admin', 'Delivered, admin time passed, no contrary signal'],
-    ['assumed-not-taken', 'Patient discharged before admin time (ADT)'],
-    ['not-taken', 'Bag returned and reconciled to the order'],
-    ['contradiction', 'Signals disagree — needs a human check'],
-    ['unknown', 'Delivered only — no reconciliation signal']
-  ];
-  document.getElementById('legend').innerHTML = rows.map(([k, desc]) => {
+  const rows = ['administered','assumed-admin','assumed-not-taken','not-taken','contradiction','unknown'];
+  document.getElementById('legend').innerHTML = rows.map(k => {
     const a = ADMIN[k];
     return `<div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full ${a.dot} shrink-0"></span>
-      <span class="font-medium text-slate-800">${a.label}</span>
-      <span class="text-slate-400">·</span><span class="text-slate-500">${esc(desc)}</span></div>`;
+      <span class="font-medium text-slate-800">${esc(T('admin.'+k))}</span>
+      <span class="text-slate-400">·</span><span class="text-slate-500">${esc(T('legend.'+k))}</span></div>`;
   }).join('');
 }
 
@@ -315,7 +308,7 @@ async function init() {
     state.modules = { ...DATA.modules };
     document.getElementById('hdrDate').textContent = DATA.date;
     document.getElementById('hdrSite').textContent = DATA.site;
-    document.getElementById('hdrUpdated').innerHTML = `<i data-lucide="refresh-cw" class="w-3 h-3"></i> Data updated ${esc(DATA.dataUpdated)}`;
+    document.getElementById('hdrUpdated').innerHTML = `<i data-lucide="refresh-cw" class="w-3 h-3"></i> ${esc(T('cockpit.updated',{t:DATA.dataUpdated}))}`;
     render();
     document.getElementById('adminTimeSel').addEventListener('change', e => { state.adminTime = e.target.value; render(); });
     document.getElementById('lookAheadSel').addEventListener('change', e => { state.lookAhead = e.target.value; render(); });
@@ -324,6 +317,7 @@ async function init() {
       `<div class="bg-red-50 border border-red-200 text-red-800 rounded-xl p-4 mb-4">Ward status unavailable. ${esc(e.message)}</div>`);
   }
 }
+window.addEventListener('i18n:changed', ()=>{ if (DATA) render(); });
 init();
 </script>
 </body>

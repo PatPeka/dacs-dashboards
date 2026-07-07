@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -21,12 +21,12 @@
         <span class="font-bold text-xl tracking-tight text-slate-800">DACS</span>
       </div>
       <div class="h-5 w-px bg-slate-300 mx-1"></div>
-      <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-50 text-blue-700 border border-blue-100">Assist</span>
+      <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-50 text-blue-700 border border-blue-100" data-i18n="cockpit.assist">Assist</span>
     </div>
     <div class="flex items-center gap-6 text-sm">
       <div class="flex items-center gap-2 text-slate-600"><i data-lucide="clock" class="w-4 h-4"></i><span id="hdrDate">—</span></div>
       <div class="flex items-center gap-2 text-slate-600"><i data-lucide="map-pin" class="w-4 h-4"></i><span id="hdrSite" class="font-medium text-slate-800">—</span></div>
-      <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div><span class="font-medium text-slate-800">Live production</span></div>
+      <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div><span class="font-medium text-slate-800" data-i18n="cockpit.live">Live production</span></div>
       <span id="hdrUpdated" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-transparent border border-slate-200 text-slate-500"><i data-lucide="refresh-cw" class="w-3 h-3"></i> Data updated —</span>
     </div>
   </div>
@@ -34,18 +34,19 @@
 
 <nav class="bg-white border-b border-slate-200">
   <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 h-12 flex items-center gap-1 overflow-x-auto">
-      <a href="index.html" title="Back to menu" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-sm font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors"><i data-lucide="home" class="w-4 h-4"></i><span class="hidden sm:inline">Home</span></a>
-      <div class="h-5 w-px bg-slate-200 mx-1"></div>
-      <a href="where-is-my-meds.html" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-sm font-medium transition-colors text-slate-500 hover:text-slate-900 hover:bg-slate-100"><i data-lucide="pill" class="w-4 h-4"></i><span class="hidden md:inline">Where is my med</span></a>
-      <a href="production-cockpit.html" aria-current="page" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-sm font-medium transition-colors bg-blue-600 text-white"><i data-lucide="layout-dashboard" class="w-4 h-4"></i><span class="hidden md:inline">Production Cockpit</span></a>
-      <a href="ward-status.html" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-sm font-medium transition-colors text-slate-500 hover:text-slate-900 hover:bg-slate-100"><i data-lucide="layout-grid" class="w-4 h-4"></i><span class="hidden md:inline">Ward Status</span></a>
+    <a href="index.html" data-i18n-title="nav.home" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-sm font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors"><i data-lucide="home" class="w-4 h-4"></i><span class="hidden sm:inline" data-i18n="nav.home">Home</span></a>
+    <div class="h-5 w-px bg-slate-200 mx-1"></div>
+    <a href="where-is-my-meds.html" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-sm font-medium transition-colors text-slate-500 hover:text-slate-900 hover:bg-slate-100"><i data-lucide="pill" class="w-4 h-4"></i><span class="hidden md:inline" data-i18n="nav.wim">Where is my med</span></a>
+    <a href="production-cockpit.html" aria-current="page" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-sm font-medium transition-colors bg-blue-600 text-white"><i data-lucide="layout-dashboard" class="w-4 h-4"></i><span class="hidden md:inline" data-i18n="nav.cockpit">Production Cockpit</span></a>
+    <a href="ward-status.html" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-sm font-medium transition-colors text-slate-500 hover:text-slate-900 hover:bg-slate-100"><i data-lucide="layout-grid" class="w-4 h-4"></i><span class="hidden md:inline" data-i18n="nav.ward">Ward Status</span></a>
+    <button id="langToggle" class="ml-auto inline-flex items-center justify-center h-8 w-10 rounded-lg border border-slate-200 bg-white text-sm font-semibold text-slate-600 hover:bg-slate-100 transition-colors">FR</button>
   </div>
 </nav>
 
 <main class="max-w-[1600px] mx-auto px-6 py-8 space-y-6">
   <div>
-    <h1 class="text-2xl font-bold text-slate-900">Daily Production Cockpit</h1>
-    <p class="text-slate-500 mt-1">Risk-aware ward sequencing for live patient-specific dispensing</p>
+    <h1 class="text-2xl font-bold text-slate-900" data-i18n="cockpit.title">Daily Production Cockpit</h1>
+    <p class="text-slate-500 mt-1" data-i18n="cockpit.subtitle">Risk-aware ward sequencing for live patient-specific dispensing</p>
   </div>
 
   <!-- KPI row -->
@@ -64,21 +65,21 @@
       <!-- Ranked ward table -->
       <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
         <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-          <h3 class="text-lg font-semibold text-slate-900">Recommended production sequence by ward</h3>
-          <button class="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg px-3 py-1.5">View full schedule <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i></button>
+          <h3 class="text-lg font-semibold text-slate-900" data-i18n="seq.title">Recommended production sequence by ward</h3>
+          <button class="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg px-3 py-1.5"><span data-i18n="seq.viewAll">View full schedule</span> <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i></button>
         </div>
         <div class="overflow-x-auto">
           <table class="w-full text-sm text-left">
             <thead class="text-xs text-slate-500 uppercase bg-slate-50 border-y border-slate-200">
               <tr>
-                <th class="px-6 py-3 font-medium">Rank</th>
-                <th class="px-6 py-3 font-medium">Ward</th>
-                <th class="px-6 py-3 font-medium text-right">Patients</th>
-                <th class="px-6 py-3 font-medium text-right">Doses</th>
-                <th class="px-6 py-3 font-medium text-right">Median RCP</th>
-                <th class="px-6 py-3 font-medium text-right">Est. duration</th>
-                <th class="px-6 py-3 font-medium">Progress</th>
-                <th class="px-6 py-3 font-medium text-right">SLA risk</th>
+                <th class="px-6 py-3 font-medium" data-i18n="seq.rank">Rank</th>
+                <th class="px-6 py-3 font-medium" data-i18n="seq.ward">Ward</th>
+                <th class="px-6 py-3 font-medium text-right" data-i18n="seq.patients">Patients</th>
+                <th class="px-6 py-3 font-medium text-right" data-i18n="seq.doses">Doses</th>
+                <th class="px-6 py-3 font-medium text-right" data-i18n="seq.medianRcp">Median RCP</th>
+                <th class="px-6 py-3 font-medium text-right" data-i18n="seq.duration">Est. duration</th>
+                <th class="px-6 py-3 font-medium" data-i18n="seq.progress">Progress</th>
+                <th class="px-6 py-3 font-medium text-right" data-i18n="seq.slaRisk">SLA risk</th>
               </tr>
             </thead>
             <tbody id="seqBody" class="divide-y divide-slate-100"></tbody>
@@ -90,17 +91,17 @@
     <!-- Right column -->
     <div class="lg:col-span-3 space-y-6">
       <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-        <div class="px-6 py-4 border-b border-slate-100"><h3 class="text-base font-semibold text-slate-900 flex items-center gap-2"><i data-lucide="activity" class="w-4 h-4 text-blue-600"></i> Why this sequence?</h3></div>
+        <div class="px-6 py-4 border-b border-slate-100"><h3 class="text-base font-semibold text-slate-900 flex items-center gap-2"><i data-lucide="activity" class="w-4 h-4 text-blue-600"></i> <span data-i18n="why.title">Why this sequence?</span></h3></div>
         <div class="px-6 py-4"><ul id="rationaleList" class="space-y-3"></ul></div>
       </div>
 
       <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-        <div class="px-6 py-4 border-b border-slate-100"><h3 class="text-base font-semibold text-slate-900 flex items-center gap-2"><i data-lucide="clock" class="w-4 h-4 text-blue-600"></i> SLA forecast</h3></div>
+        <div class="px-6 py-4 border-b border-slate-100"><h3 class="text-base font-semibold text-slate-900 flex items-center gap-2"><i data-lucide="clock" class="w-4 h-4 text-blue-600"></i> <span data-i18n="sla.title">SLA forecast</span></h3></div>
         <div class="px-6 py-4" id="slaCard"></div>
       </div>
 
       <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-        <div class="px-6 py-4 border-b border-slate-100"><h3 class="text-base font-semibold text-slate-900 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-4 h-4 text-orange-500"></i> Exceptions to monitor</h3></div>
+        <div class="px-6 py-4 border-b border-slate-100"><h3 class="text-base font-semibold text-slate-900 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-4 h-4 text-orange-500"></i> <span data-i18n="exc.title">Exceptions to monitor</span></h3></div>
         <div class="px-6 py-4"><div id="exceptionsList" class="space-y-3"></div></div>
       </div>
     </div>
@@ -115,31 +116,28 @@
         <div id="timelineNodes" class="relative flex justify-between items-center"></div>
       </div>
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-sm text-slate-500">
-        <div class="flex items-center gap-2"><i data-lucide="users" class="w-4 h-4 text-slate-400"></i><span><strong class="text-slate-700">Human-in-the-loop:</strong> operator can follow or override.</span></div>
+        <div class="flex items-center gap-2"><i data-lucide="users" class="w-4 h-4 text-slate-400"></i><span><strong class="text-slate-700" data-i18n="foot.human">Human-in-the-loop:</strong> <span data-i18n="foot.humanBody">operator can follow or override.</span></span></div>
         <div class="hidden sm:block w-1 h-1 rounded-full bg-slate-300"></div>
-        <div class="flex items-center gap-2"><i data-lucide="refresh-cw" class="w-4 h-4 text-slate-400"></i><span><strong class="text-slate-700">Live adaptation:</strong> recommendations update based on real production.</span></div>
+        <div class="flex items-center gap-2"><i data-lucide="refresh-cw" class="w-4 h-4 text-slate-400"></i><span><strong class="text-slate-700" data-i18n="foot.live">Live adaptation:</strong> <span data-i18n="foot.liveBody">recommendations update based on real production.</span></span></div>
         <div class="hidden sm:block w-1 h-1 rounded-full bg-slate-300"></div>
-        <div class="flex items-center gap-2"><i data-lucide="arrow-right" class="w-4 h-4 text-slate-400"></i><span><strong class="text-slate-700">Next step:</strong> SLA alerts and delivery tracking.</span></div>
+        <div class="flex items-center gap-2"><i data-lucide="arrow-right" class="w-4 h-4 text-slate-400"></i><span><strong class="text-slate-700" data-i18n="foot.next">Next step:</strong> <span data-i18n="foot.nextBody">SLA alerts and delivery tracking.</span></span></div>
       </div>
     </div>
   </div>
 </main>
 
+<script src="js/i18n.js"></script>
 <script src="js/datasource.js"></script>
 <script>
-const BADGE = {
-  success: 'bg-emerald-100 text-emerald-800',
-  warning: 'bg-amber-100 text-amber-800',
-  danger:  'bg-orange-100 text-orange-800',
-  info:    'bg-blue-100 text-blue-800',
-  default: 'bg-slate-100 text-slate-800'
-};
+const T = (k,v)=>window.I18N.t(k,v);
+const BADGE = { success:'bg-emerald-100 text-emerald-800', warning:'bg-amber-100 text-amber-800', danger:'bg-orange-100 text-orange-800', info:'bg-blue-100 text-blue-800', default:'bg-slate-100 text-slate-800' };
 const EXC_TONE = {
   orange:  { box:'bg-orange-50 border-orange-100',   chip:'bg-orange-100 text-orange-700',   text:'text-orange-900' },
   slate:   { box:'bg-slate-50 border-slate-200',     chip:'bg-slate-200 text-slate-700',     text:'text-slate-700' },
   amber:   { box:'bg-amber-50 border-amber-100',     chip:'bg-amber-100 text-amber-700',     text:'text-amber-900' },
   emerald: { box:'bg-emerald-50 border-emerald-100', chip:'bg-emerald-100 text-emerald-700', text:'text-emerald-900' }
 };
+let DATA = null;
 function esc(s){ return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function pct(v, max){ return Math.min(100, Math.max(0, (v / (max||100)) * 100)); }
 function bar(v, max, color){ return `<div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden"><div class="h-full rounded-full ${color}" style="width:${pct(v,max)}%"></div></div>`; }
@@ -148,57 +146,57 @@ function renderKpis(d){
   const k = d.kpis;
   document.getElementById('kpiRow').innerHTML = `
     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
-      <div class="text-sm font-medium text-slate-500 mb-1">Daily objective</div>
+      <div class="text-sm font-medium text-slate-500 mb-1">${esc(T('kpi.objective'))}</div>
       <div class="flex items-baseline gap-2 mb-3"><span class="text-2xl font-bold">${k.dailyObjectiveDoses.produced.toLocaleString()}</span><span class="text-sm font-medium text-slate-400">/ ${k.dailyObjectiveDoses.target.toLocaleString()}</span></div>
       <div class="flex items-center gap-3">${bar(k.dailyObjectiveDoses.produced,k.dailyObjectiveDoses.target,'bg-blue-600')}<span class="text-xs font-medium text-slate-500 w-8 text-right">${Math.round(pct(k.dailyObjectiveDoses.produced,k.dailyObjectiveDoses.target))}%</span></div>
-      <div class="text-xs text-slate-400 mt-2">Doses produced</div>
+      <div class="text-xs text-slate-400 mt-2">${esc(T('kpi.dosesProduced'))}</div>
     </div>
     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
-      <div class="text-sm font-medium text-slate-500 mb-1">Patients remaining</div>
+      <div class="text-sm font-medium text-slate-500 mb-1">${esc(T('kpi.patientsRemaining'))}</div>
       <div class="flex items-baseline gap-2 mb-3"><span class="text-2xl font-bold">${k.patients.served}</span><span class="text-sm font-medium text-slate-400">/ ${k.patients.total}</span></div>
       <div class="flex items-center gap-3">${bar(k.patients.served,k.patients.total,'bg-teal-500')}<span class="text-xs font-medium text-slate-500 w-8 text-right">${Math.round(pct(k.patients.served,k.patients.total))}%</span></div>
-      <div class="text-xs text-slate-400 mt-2">Patients served</div>
+      <div class="text-xs text-slate-400 mt-2">${esc(T('kpi.patientsServed'))}</div>
     </div>
     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 flex flex-col justify-center">
-      <div class="text-sm font-medium text-slate-500 mb-1">Start time</div>
+      <div class="text-sm font-medium text-slate-500 mb-1">${esc(T('kpi.start'))}</div>
       <div class="text-2xl font-bold">${esc(k.startTime)}</div>
-      <div class="text-xs text-slate-400 mt-2">Production started</div>
+      <div class="text-xs text-slate-400 mt-2">${esc(T('kpi.startSub'))}</div>
     </div>
     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 flex flex-col justify-center">
-      <div class="text-sm font-medium text-slate-500 mb-1">Cut-off</div>
+      <div class="text-sm font-medium text-slate-500 mb-1">${esc(T('kpi.cutoff'))}</div>
       <div class="text-2xl font-bold">${esc(k.cutoff)}</div>
-      <div class="text-xs text-slate-400 mt-2">Target end</div>
+      <div class="text-xs text-slate-400 mt-2">${esc(T('kpi.cutoffSub'))}</div>
     </div>
     <div class="bg-white rounded-xl shadow-sm border border-emerald-200 bg-emerald-50/30 p-5 flex flex-col justify-center">
-      <div class="flex items-center justify-between mb-1"><div class="text-sm font-medium text-slate-500">Forecast end</div><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 border border-emerald-200">${esc(k.forecastStatus)}</span></div>
+      <div class="flex items-center justify-between mb-1"><div class="text-sm font-medium text-slate-500">${esc(T('kpi.forecast'))}</div><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 border border-emerald-200">${esc(T('status.'+k.forecastStatusCode))}</span></div>
       <div class="text-2xl font-bold">${esc(k.forecastEnd)}</div>
-      <div class="text-xs font-medium text-emerald-600 mt-2 flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i> ${esc(k.remainingLabel)}</div>
+      <div class="text-xs font-medium text-emerald-600 mt-2 flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i> ${esc(T('kpi.remaining',{t:k.remainingTime}))}</div>
     </div>`;
 }
 
 function renderReco(d){
   const r = d.recommendation;
-  const stat = (label,val,icon)=>`<div><div class="text-sm text-slate-500 mb-1">${label}</div><div class="text-xl font-semibold text-slate-800 flex items-center gap-2">${icon?`<i data-lucide="${icon}" class="w-5 h-5 text-slate-400"></i>`:''}${esc(val)}</div></div>`;
+  const stat = (label,val,icon)=>`<div><div class="text-sm text-slate-500 mb-1">${esc(label)}</div><div class="text-xl font-semibold text-slate-800 flex items-center gap-2">${icon?`<i data-lucide="${icon}" class="w-5 h-5 text-slate-400"></i>`:''}${esc(val)}</div></div>`;
   const sep = `<div class="w-px h-10 bg-slate-200"></div>`;
   document.getElementById('recoCard').innerHTML = `
-    <div class="flex items-center gap-2 mb-2"><i data-lucide="activity" class="w-5 h-5 text-blue-600"></i><h2 class="text-sm font-bold uppercase tracking-wider text-blue-600">Next Recommended Ward</h2></div>
+    <div class="flex items-center gap-2 mb-2"><i data-lucide="activity" class="w-5 h-5 text-blue-600"></i><h2 class="text-sm font-bold uppercase tracking-wider text-blue-600">${esc(T('reco.eyebrow'))}</h2></div>
     <h3 class="text-3xl font-bold text-slate-900 mt-2 mb-6">${esc(r.ward)}</h3>
     <div class="flex flex-wrap items-center gap-6 mb-6">
-      ${stat('Patients', r.patients, 'users')}${sep}
-      ${stat('Doses', r.doses)}${sep}
-      ${stat('Median RCP', r.medianRcp)}${sep}
-      ${stat('Est. duration', r.estDuration, 'clock')}${sep}
-      ${stat('Progress', r.progress + '%')}
+      ${stat(T('reco.patients'), r.patients, 'users')}${sep}
+      ${stat(T('reco.doses'), r.doses)}${sep}
+      ${stat(T('reco.medianRcp'), r.medianRcp)}${sep}
+      ${stat(T('reco.duration'), r.estDuration, 'clock')}${sep}
+      ${stat(T('reco.progress'), r.progress + '%')}
     </div>
     <div class="bg-blue-50 rounded-lg p-4 flex items-start gap-3 mb-8 border border-blue-100">
       <i data-lucide="info" class="w-5 h-5 text-blue-600 shrink-0 mt-0.5"></i>
-      <p class="text-sm text-blue-900 leading-relaxed"><span class="font-semibold">Recommended because:</span> ${esc(r.reason)}</p>
+      <p class="text-sm text-blue-900 leading-relaxed"><span class="font-semibold">${esc(T('reco.because'))}</span> ${esc(T('reason.'+r.reasonCode))}</p>
     </div>
     <div class="flex flex-wrap items-center gap-4">
-      <button class="inline-flex items-center justify-center gap-2 font-medium rounded-lg px-6 py-3 text-base bg-blue-600 text-white hover:bg-blue-700 shadow-lg shadow-blue-600/20"><i data-lucide="play" class="w-5 h-5 fill-current"></i> Start production</button>
-      <button class="inline-flex items-center justify-center gap-2 font-medium rounded-lg px-6 py-3 text-base bg-white text-slate-700 hover:bg-slate-50 border border-slate-300 shadow-sm"><i data-lucide="skip-forward" class="w-5 h-5"></i> Skip recommendation</button>
+      <button class="inline-flex items-center justify-center gap-2 font-medium rounded-lg px-6 py-3 text-base bg-blue-600 text-white hover:bg-blue-700 shadow-lg shadow-blue-600/20"><i data-lucide="play" class="w-5 h-5 fill-current"></i> ${esc(T('reco.start'))}</button>
+      <button class="inline-flex items-center justify-center gap-2 font-medium rounded-lg px-6 py-3 text-base bg-white text-slate-700 hover:bg-slate-50 border border-slate-300 shadow-sm"><i data-lucide="skip-forward" class="w-5 h-5"></i> ${esc(T('reco.skip'))}</button>
     </div>
-    <p class="text-xs text-slate-500 mt-4 flex items-center gap-1.5"><i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> DACS adapts the next recommendation based on real production progress.</p>`;
+    <p class="text-xs text-slate-500 mt-4 flex items-center gap-1.5"><i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> ${esc(T('reco.adapts'))}</p>`;
 }
 
 function renderSequence(d){
@@ -212,26 +210,26 @@ function renderSequence(d){
       <td class="px-6 py-4 text-right font-medium text-slate-700">${esc(row.rcp)}</td>
       <td class="px-6 py-4 text-right text-slate-600">${esc(row.duration)}</td>
       <td class="px-6 py-4"><div class="flex items-center gap-2"><div class="w-16">${bar(row.progress,100,'bg-blue-600')}</div><span class="text-xs text-slate-500">${row.progress}%</span></div></td>
-      <td class="px-6 py-4 text-right"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${BADGE[row.riskType]||BADGE.default}">${esc(row.risk)}</span></td>
+      <td class="px-6 py-4 text-right"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${BADGE[row.riskType]||BADGE.default}">${esc(T('risk.'+row.riskType))}</span></td>
     </tr>`;
   }).join('');
 }
 
 function renderRationale(d){
-  document.getElementById('rationaleList').innerHTML = d.rationale.map(item=>
-    `<li class="flex items-start gap-2.5 text-sm text-slate-600"><i data-lucide="check-circle-2" class="w-4 h-4 text-teal-500 shrink-0 mt-0.5"></i><span>${esc(item)}</span></li>`
+  document.getElementById('rationaleList').innerHTML = d.rationale.map(code=>
+    `<li class="flex items-start gap-2.5 text-sm text-slate-600"><i data-lucide="check-circle-2" class="w-4 h-4 text-teal-500 shrink-0 mt-0.5"></i><span>${esc(T('rationale.'+code))}</span></li>`
   ).join('');
 }
 
 function renderSla(d){
   const s = d.slaForecast;
-  const row = (l,v,c)=>`<div class="flex justify-between items-center pb-3 border-b border-slate-100"><span class="text-sm text-slate-500">${l}</span><span class="text-sm font-semibold ${c||'text-slate-900'}">${esc(v)}</span></div>`;
+  const row = (l,v,c)=>`<div class="flex justify-between items-center pb-3 border-b border-slate-100"><span class="text-sm text-slate-500">${esc(l)}</span><span class="text-sm font-semibold ${c||'text-slate-900'}">${esc(v)}</span></div>`;
   document.getElementById('slaCard').innerHTML = `
     <div class="space-y-4">
-      ${row('Estimated completion', s.estimatedCompletion)}
-      ${row('Cut-off', s.cutoff)}
-      ${row('Buffer', s.buffer, 'text-emerald-600')}
-      <div class="pt-1"><span class="flex items-center justify-center w-full px-2.5 py-1.5 rounded-full text-sm font-medium bg-emerald-100 text-emerald-800">${esc(s.status)}</span></div>
+      ${row(T('sla.estCompletion'), s.estimatedCompletion)}
+      ${row(T('sla.cutoff'), s.cutoff)}
+      ${row(T('sla.buffer'), s.buffer, 'text-emerald-600')}
+      <div class="pt-1"><span class="flex items-center justify-center w-full px-2.5 py-1.5 rounded-full text-sm font-medium bg-emerald-100 text-emerald-800">${esc(T('status.'+s.statusCode))}</span></div>
     </div>`;
 }
 
@@ -240,7 +238,7 @@ function renderExceptions(d){
     const t = EXC_TONE[e.tone] || EXC_TONE.slate;
     return `<div class="flex items-start gap-3 p-2.5 rounded-lg border ${t.box}">
       <div class="w-6 h-6 rounded ${t.chip} flex items-center justify-center text-xs font-bold shrink-0">${e.count}</div>
-      <div class="text-sm ${t.text} mt-0.5">${esc(e.label)}</div>
+      <div class="text-sm ${t.text} mt-0.5">${esc(T('exc.'+e.code))}</div>
     </div>`;
   }).join('');
 }
@@ -248,31 +246,34 @@ function renderExceptions(d){
 function renderTimeline(d){
   document.getElementById('timelineFill').style.width = (d.timelineProgressPct ?? 45) + '%';
   document.getElementById('timelineNodes').innerHTML = d.timeline.map(n=>{
-    const dot = n.state==='done' ? 'bg-emerald-500 border-white'
-              : n.state==='forecast' ? 'bg-white border-emerald-500'
-              : 'bg-white border-slate-300';
-    const label = n.state==='forecast' ? 'text-emerald-600 font-medium' : 'text-slate-500';
+    const dot = n.state==='done' ? 'bg-emerald-500 border-white' : n.state==='forecast' ? 'bg-white border-emerald-500' : 'bg-white border-slate-300';
+    const labelCls = n.state==='forecast' ? 'text-emerald-600 font-medium' : 'text-slate-500';
+    const label = n.state==='done' ? T('tl.start') : n.state==='forecast' ? T('tl.forecastEnd') : T('tl.cutoff');
     return `<div class="flex flex-col items-center gap-2">
       <div class="w-4 h-4 rounded-full border-4 shadow-sm z-10 ${dot}"></div>
-      <div class="text-center"><div class="text-sm font-bold text-slate-900">${esc(n.time)}</div><div class="text-xs ${label}">${esc(n.label)}</div></div>
+      <div class="text-center"><div class="text-sm font-bold text-slate-900">${esc(n.time)}</div><div class="text-xs ${labelCls}">${esc(label)}</div></div>
     </div>`;
   }).join('');
 }
 
+function renderAll(d){
+  document.getElementById('hdrDate').textContent = d.date;
+  document.getElementById('hdrSite').textContent = d.site;
+  document.getElementById('hdrUpdated').innerHTML = `<i data-lucide="refresh-cw" class="w-3 h-3"></i> ${esc(T('cockpit.updated',{t:d.dataUpdated}))}`;
+  renderKpis(d); renderReco(d); renderSequence(d); renderRationale(d); renderSla(d); renderExceptions(d); renderTimeline(d);
+  lucide.createIcons();
+}
+
 async function init(){
   try {
-    const d = await window.DACSData.getCockpit();
-    document.getElementById('hdrDate').textContent = d.date;
-    document.getElementById('hdrSite').textContent = d.site;
-    document.getElementById('hdrUpdated').innerHTML = `<i data-lucide="refresh-cw" class="w-3 h-3"></i> Data updated ${esc(d.dataUpdated)}`;
-    renderKpis(d); renderReco(d); renderSequence(d);
-    renderRationale(d); renderSla(d); renderExceptions(d); renderTimeline(d);
-    lucide.createIcons();
+    DATA = await window.DACSData.getCockpit();
+    renderAll(DATA);
   } catch (e) {
     document.querySelector('main').insertAdjacentHTML('afterbegin',
       `<div class="bg-red-50 border border-red-200 text-red-800 rounded-xl p-4 mb-4">Cockpit data unavailable. ${esc(e.message)}</div>`);
   }
 }
+window.addEventListener('i18n:changed', ()=>{ if (DATA) renderAll(DATA); });
 init();
 </script>
 </body>

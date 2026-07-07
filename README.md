@@ -17,6 +17,7 @@ would server-side:
 | `ward-status.html` | Bed-level supply + administration status (ward 224) |
 | `data/dataset.json` | Single source of truth: patients, dispense orders, wards |
 | `js/datasource.js` | Projection layer (dataset now, live API later) |
+| `js/i18n.js` | FR/EN interface layer (French default, FR/EN toggle) |
 
 A patient found in "Where is my med" (e.g. admission `A2203`, ward 224) also
 appears on the Ward Status board, and their ward appears in the Cockpit.

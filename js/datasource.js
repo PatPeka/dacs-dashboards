@@ -45,51 +45,32 @@ function latestTime(o) {
   return t.delivered || t.cancelled || t.picked || t.production || t.received || null;
 }
 
-function buildTimeline(o) {
+function buildTimelineSteps(o) {
   const t = o.times || {};
   if (o.supply === 'cancelled') {
     return [
-      { title: 'Order received by pharmacy', timestamp: fmtTime(t.received), completed: true },
-      { title: 'Cancelled', timestamp: fmtTime(t.cancelled), completed: true, isCancelled: true, current: true }
+      { key: 'received', time: t.received || null, completed: true },
+      { key: 'cancelled', time: t.cancelled || null, completed: true, isCancelled: true, current: true }
     ];
   }
-  const steps = [
-    { key: 'received',   title: 'Order received by pharmacy' },
-    { key: 'production', title: 'Production started' },
-    { key: 'picked',     title: 'Picked up from pharmacy' },
-    { key: 'delivered',  title: 'Delivered to ward' }
-  ];
+  const order = ['received', 'production', 'picked', 'delivered'];
   let lastIdx = -1;
-  steps.forEach((s, i) => { if (t[s.key]) lastIdx = i; });
-  return steps.map((s, i) => ({
-    title: s.title,
-    timestamp: fmtTime(t[s.key]),
-    completed: !!t[s.key],
-    current: i === lastIdx
+  order.forEach((k, i) => { if (t[k]) lastIdx = i; });
+  return order.map((k, i) => ({
+    key: k, time: t[k] || null, completed: !!t[k], current: i === lastIdx
   }));
 }
 
-// Map the supply lifecycle onto the 4 display states "Where is my med" knows.
+// Return CODES only; the dashboard composes localized labels via i18n.
 function toDisplayOrder(o) {
-  const map = {
-    delivered:      { status: 'delivered',     msg: 'Delivered to ward',  details: `Delivered at ${fmtTime(o.times.delivered)} · ${o.adminTime} round` },
-    'in-transit':   { status: 'in-transit',    msg: 'In transit',         details: `Picked up at pharmacy at ${fmtTime(o.times.picked)}` },
-    'in-production':{ status: 'in-production',  msg: 'In production',      details: `Expected before the ${o.adminTime} round` },
-    'stock-out':    { status: 'in-production', msg: 'Delayed — stock out', details: 'Item temporarily out of stock. Pharmacy has been notified.' },
-    'waiting-rcp':  { status: 'in-production', msg: 'Awaiting validation', details: 'Order waiting for clinical validation (RCP) before production.' },
-    cancelled:      { status: 'cancelled',     msg: 'Order cancelled',    details: 'This medication order was cancelled (admission/transfer/discharge).' },
-    none:           { status: 'cancelled',     msg: 'No active order',    details: 'No active dispense order for this round.' }
-  };
-  const m = map[o.supply] || map['in-production'];
   return {
     id: o.id,
     patientId: o.patientId,
-    status: m.status,
-    statusMessage: m.msg,
-    statusDetails: m.details,
-    lastUpdated: fmtTime(latestTime(o)) || '—',
+    statusCode: o.supply,        // delivered | in-transit | in-production | stock-out | waiting-rcp | cancelled | none
+    adminTime: o.adminTime,
     batchId: o.id,
-    timeline: buildTimeline(o)
+    lastUpdatedTime: latestTime(o),
+    timeline: buildTimelineSteps(o)
   };
 }
 
@@ -150,8 +131,6 @@ async function getCockpit() {
   const ds = await loadDataset();
   const p = ds.production;
 
-  // Recompute the detailed ward's row from its actual dispense orders,
-  // so at least the drill-down ward is truly derived from the DO set.
   const wid = ds.detailedWard;
   const curDOs = ds.dispenseOrders.filter((o) => o.ward === wid && o.adminTime === ds.currentAdminTime);
   const computed = {
@@ -168,7 +147,7 @@ async function getCockpit() {
   const sequence = rows.map((w, i) => ({
     rank: i + 1, ward: w.name, patients: w.patients, doses: w.doses,
     rcp: w.rcp, duration: w.duration, progress: w.progress || 0,
-    risk: w.risk, riskType: w.riskType
+    riskType: w.riskType                       // label derived in dashboard via i18n
   }));
   const top = sequence[0];
 
@@ -178,18 +157,18 @@ async function getCockpit() {
       dailyObjectiveDoses: { produced: p.producedDoses, target: p.objectiveDoses },
       patients: { served: p.servedPatients, total: p.totalPatients },
       startTime: p.startTime, cutoff: p.cutoff, forecastEnd: p.forecastEnd,
-      forecastStatus: p.forecastStatus, remainingLabel: p.remainingLabel
+      forecastStatusCode: p.forecastStatusCode, remainingTime: p.remainingTime
     },
     recommendation: {
       ward: top.ward, patients: top.patients, doses: top.doses,
       medianRcp: top.rcp, estDuration: top.duration, progress: top.progress,
-      reason: p.recommendationReason
+      reasonCode: p.recommendationReasonCode
     },
     sequence,
-    rationale: p.rationale,
-    slaForecast: p.slaForecast,
-    exceptions: p.exceptions,
-    timeline: p.timeline,
+    rationale: p.rationale,                     // array of codes
+    slaForecast: p.slaForecast,                 // { estimatedCompletion, cutoff, buffer, statusCode }
+    exceptions: p.exceptions,                   // [{ count, code, tone }]
+    timeline: p.timeline,                       // [{ time, state }]
     timelineProgressPct: p.timelineProgressPct
   };
 }
