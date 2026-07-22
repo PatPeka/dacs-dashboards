@@ -1,0 +1,3 @@
+export interface DispenseOrderDto { id?:string; serviceId?:string; service?:{id?:string;code?:string;name?:string;description?:string}|string; patientCode?:string|null; quantity?:number; tackingTime?:string|null; sendingCycle?:string|null; stability?:number|null; status?:string|number; hasBeenProduct?:boolean; hasStock?:boolean; verified?:boolean; warning?:boolean; cancelledAfterDacsProduction?:boolean; }
+export interface RealProductionPlanningDto { productionDay?:string; serviceCode?:string; serviceDescription?:string; startTime?:string|null; endTime?:string|null; totalDispenseOrders?:number; }
+export interface DacsRuntimeConfig { apiBaseUrl:string; dataMode:'live'|'mock'|'auto'; refreshIntervalSeconds:number; operationalTimezone:string; }

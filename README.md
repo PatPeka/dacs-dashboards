@@ -2,6 +2,8 @@
 
 Interactive HTML demos of DACS user-facing dashboards. No build step — plain HTML + Tailwind CDN.
 
+The executable Angular implementation of the Daily Production Cockpit is in [`apps/dacs-assist`](apps/dacs-assist/README.md). The original static demo below remains unchanged as the approved visual reference.
+
 ## One dataset, three views
 
 All three dashboards project from a single source of truth, `data/dataset.json`
