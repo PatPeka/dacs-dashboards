@@ -1,0 +1,23 @@
+# Dependencies and generated output
+node_modules/
+dist/
+.angular/
+coverage/
+
+# Local environment and runtime overrides
+.env
+.env.*
+!.env.example
+*.local
+runtime-config.local.json
+
+# Credentials and tokens
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+secrets.json
+token.json
+tokens.json
+
